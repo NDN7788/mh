@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Spike 포트폴리오</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@700;800&display=swap">
+<style>
+/* Layout: left rail with the nine web menus on wide screens; on phones the rail
+   folds into a five-tab bottom bar (홈·기록·포트폴리오·지원·마이). Ivy-green ink on
+   a cool, faintly green paper; amber only for deadlines. */
+:root{
+  --paper:#f4f6f2; --surface:#ffffff; --sunk:#eaeee8; --ink:#16201b; --muted:#5a6660;
+  --line:#dbe1da; --ivy:#1d5a47; --ivy-ink:#ffffff; --ivy-soft:#e0ece6;
+  --amber:#9a5a00; --amber-soft:#fbeedb; --danger:#b3261e; --danger-soft:#fbe5e3;
+  --ok:#2c7a4b;
+  --t1:#1d5a47; --t2:#3d6fb6; --t3:#a45a8a; --t4:#b07a1e; --t5:#5c6b78;
+  --f-display:"Nanum Myeongjo","AppleMyungjo","Batang",serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#101512; --surface:#171e1a; --sunk:#1d2621; --ink:#e4ebe6; --muted:#98a59e;
+    --line:#2a3530; --ivy:#72c4a4; --ivy-ink:#0c1a14; --ivy-soft:#1a2e26;
+    --amber:#e8a94f; --amber-soft:#33291a; --danger:#f08a82; --danger-soft:#3a1f1d;
+    --ok:#7bd19c;
+    --t1:#72c4a4; --t2:#86aee8; --t3:#d898c2; --t4:#e3b866; --t5:#9fb0bd;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101512; --surface:#171e1a; --sunk:#1d2621; --ink:#e4ebe6; --muted:#98a59e;
+  --line:#2a3530; --ivy:#72c4a4; --ivy-ink:#0c1a14; --ivy-soft:#1a2e26;
+  --amber:#e8a94f; --amber-soft:#33291a; --danger:#f08a82; --danger-soft:#3a1f1d;
+  --ok:#7bd19c;
+  --t1:#72c4a4; --t2:#86aee8; --t3:#d898c2; --t4:#e3b866; --t5:#9fb0bd;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--ivy)}
+:focus-visible{outline:2px solid var(--ivy);outline-offset:2px;border-radius:6px}
+.num,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* shell */
+.shell{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto;border-right:1px solid var(--line);
+  padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;display:flex;flex-direction:column;gap:20px}
+.brand{display:flex;flex-direction:column;gap:2px;padding:0 10px}
+.brand b{font-family:var(--f-display);font-size:22px;letter-spacing:-.01em}
+.brand span{font-size:12px;color:var(--muted)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--ink);font-size:14.5px}
+.nav a .k{font-family:var(--f-mono);font-size:11px;color:var(--muted);width:16px}
+.nav a:hover{background:var(--sunk)}
+.nav a[aria-current="page"]{background:var(--ivy-soft);color:var(--ivy);font-weight:600}
+.nav a[aria-current="page"] .k{color:var(--ivy)}
+.rail .foot{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.mode{font-size:12px;color:var(--muted);padding:0 10px}
+.mode b{color:var(--ink);font-weight:500}
+
+.topbar{display:none}
+main{min-width:0}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tabbar,.fab,.segbar{display:none}
+
+/* type */
+.eyebrow{font-size:12px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+h1{font-family:var(--f-display);font-size:clamp(24px,3.2vw,32px);line-height:1.25;margin:4px 0 6px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:16px;margin:0;font-weight:600}
+h3{font-size:14.5px;margin:0;font-weight:600}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.head>div{min-width:0}
+.small{font-size:13px;color:var(--muted)}
+.sec{display:flex;flex-direction:column;gap:12px;margin-top:28px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+/* surfaces */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.row{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-top:1px solid var(--line)}
+.row:first-child{border-top:none}
+.row .main{flex:1;min-width:0}
+.row .side{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.row.click{cursor:pointer}
+.row.click:hover{background:var(--sunk)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px;color:var(--muted);margin-top:2px}
+.desc{margin:6px 0 0;font-size:14px;overflow-wrap:anywhere}
+.empty{padding:28px 18px;text-align:center;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:12px;align-items:center}
+
+/* chips & state */
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.chip.ivy{background:var(--ivy-soft);color:var(--ivy)}
+.chip.amber{background:var(--amber-soft);color:var(--amber)}
+.chip.danger{background:var(--danger-soft);color:var(--danger)}
+.chip.ok{color:var(--ok);background:var(--ivy-soft)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-size:14px;cursor:pointer;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--muted)}
+.btn.pri{background:var(--ivy);border-color:var(--ivy);color:var(--ivy-ink);font-weight:500}
+.btn.pri:hover{filter:brightness(1.07)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.ghost:hover{color:var(--ink);background:var(--sunk)}
+.btn.sm{padding:4px 9px;font-size:13px}
+.btn.danger{color:var(--danger)}
+.btn.danger.armed{background:var(--danger);border-color:var(--danger);color:var(--surface)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* progress */
+.bar{height:8px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ivy);border-radius:999px}
+.area{display:grid;grid-template-columns:110px minmax(0,1fr) 44px;gap:12px;align-items:center;font-size:14px;padding:8px 0;text-decoration:none;color:var(--ink)}
+.area:hover .lab{color:var(--ivy)}
+.area .pct{text-align:right;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.hero{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;align-items:center}
+.ring{position:relative;width:160px;height:160px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .c b{font-family:var(--f-display);font-size:38px;line-height:1}
+.ring .c span{font-size:12px;color:var(--muted);margin-top:4px}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--f-mono);font-size:22px;font-weight:500}
+.stat span{font-size:12.5px;color:var(--muted)}
+.dday{font-family:var(--f-mono);font-weight:500;font-size:14px;min-width:58px;text-align:right}
+
+/* segmented */
+.seg{display:inline-flex;background:var(--sunk);border-radius:9px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg a,.seg button{border:none;background:transparent;padding:6px 12px;border-radius:7px;font-size:13.5px;color:var(--muted);text-decoration:none;cursor:pointer}
+.seg a[aria-current="page"],.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* banner */
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--amber-soft);color:var(--ink);border-radius:var(--r);padding:10px 14px;font-size:13.5px;margin-bottom:20px}
+.banner b{color:var(--amber)}
+
+/* spike */
+.spike{display:flex;flex-direction:column;gap:14px}
+.theme{display:grid;grid-template-columns:140px minmax(0,1fr) 36px;gap:12px;align-items:center}
+.theme .nm{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.stack{display:flex;height:22px;border-radius:6px;overflow:hidden;background:var(--sunk)}
+.stack i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.tl{overflow-x:auto}
+.tl-grid{display:grid;grid-template-columns:repeat(4,minmax(170px,1fr));gap:10px;min-width:700px}
+.tl-col{display:flex;flex-direction:column;gap:8px}
+.tl-col h3{font-family:var(--f-mono);font-weight:500;font-size:13px;color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--line)}
+.tl-item{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--c,var(--line));border-radius:7px;padding:7px 10px;font-size:13px;line-height:1.4}
+.tl-item small{display:block;color:var(--muted);font-size:11.5px}
+
+/* common app */
+.ca{display:flex;flex-direction:column;gap:10px}
+.ca-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 12px}
+.ca-item .n{font-family:var(--f-mono);color:var(--muted);font-size:13px;padding-top:2px}
+.fld{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:4px 0;font-size:14px}
+.fld .k{font-size:12px;color:var(--muted)}
+.fld .v{overflow-wrap:anywhere}
+.cnt{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.cnt.over{color:var(--danger);font-weight:500}
+textarea.out{width:100%;min-height:220px;border:1px solid var(--line);border-radius:8px;background:var(--sunk);padding:12px;font-family:var(--f-mono);font-size:12.5px;line-height:1.6;resize:vertical}
+.q{padding:12px 16px;border-top:1px solid var(--line);font-size:14px}
+.q:first-child{border-top:none}
+.q small{display:block;color:var(--muted);font-size:12px;margin-bottom:2px}
+
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(10,16,13,.45);z-index:50;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--surface);border-radius:14px;width:min(560px,100%);max-height:100%;display:flex;flex-direction:column;border:1px solid var(--line)}
+.sheet header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.sheet .body{padding:16px 18px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.sheet footer{display:flex;justify-content:space-between;gap:8px;padding:12px 18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label,.f .lab{font-size:13px;font-weight:500;display:flex;justify-content:space-between;gap:8px}
+.f input,.f select,.f textarea{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+.f textarea{min-height:84px;resize:vertical}
+.f textarea.big{min-height:220px}
+.f .hint{font-size:12px;color:var(--muted)}
+.checks{display:flex;gap:8px;flex-wrap:wrap}
+.checks label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-weight:400;cursor:pointer}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:9px;font-size:14px;z-index:60;max-width:calc(100% - 32px)}
+
+.report-h{display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+
+/* photos */
+.ph{display:block;padding:0;border:none;background:var(--sunk);border-radius:8px;overflow:hidden;cursor:zoom-in;position:relative}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.thumb{width:84px;height:84px;flex-shrink:0;border-radius:8px}
+.thumb .n{position:absolute;right:4px;bottom:4px;background:rgba(10,16,13,.7);color:#fff;font-size:11px;font-family:var(--f-mono);padding:0 6px;border-radius:6px}
+.thumb.sm{width:52px;height:52px}
+.cover{width:100%;aspect-ratio:16/9;max-width:100%;border-radius:8px}
+.strip{display:flex;gap:6px;flex-wrap:wrap}
+.strip .ph{width:64px;height:64px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gallery figure{margin:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.gallery .ph{aspect-ratio:4/3;width:100%}
+.gallery figcaption{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl-item .ph{width:100%;height:76px;margin:-1px 0 6px;border-radius:5px}
+.avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--sunk);flex-shrink:0;display:block}
+.avatar.lg{width:88px;height:88px}
+.who{display:flex;gap:14px;align-items:center;min-width:0}
+.who>div{min-width:0}
+.rail .me{display:flex;gap:10px;align-items:center;padding:0 10px;text-decoration:none;color:var(--ink)}
+.rail .me img{width:36px;height:36px;border-radius:50%;object-fit:cover;background:var(--sunk)}
+.rail .me span{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pedit{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pedit .item{position:relative;width:88px;height:88px}
+.pedit .item .ph{width:100%;height:100%}
+.pedit .item button.rm{position:absolute;top:4px;right:4px;border:none;border-radius:6px;background:rgba(10,16,13,.75);color:#fff;font-size:11px;padding:2px 6px;cursor:pointer}
+.pedit .item button.rm.armed{background:var(--danger)}
+.upl{width:88px;height:88px;border:1.5px dashed var(--line);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;color:var(--muted);cursor:pointer;text-align:center}
+.upl:hover{border-color:var(--ivy);color:var(--ivy)}
+.upl input{position:absolute;width:1px;height:1px;opacity:0}
+.upl:focus-within{outline:2px solid var(--ivy);outline-offset:2px}
+.ill{width:100%;max-width:340px;height:auto;border-radius:12px}
+.lb{position:fixed;inset:0;z-index:70;background:rgba(6,10,8,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb img{max-width:100%;max-height:78vh;border-radius:8px;object-fit:contain;background:#fff}
+.lb p{color:#e8ece9;margin:0;font-size:14px;text-align:center}
+.lb button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:8px;padding:6px 14px;cursor:pointer}
+.ex-tag{position:absolute;left:4px;top:4px;background:rgba(255,255,255,.85);color:#16201b;font-size:10px;padding:0 5px;border-radius:4px}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .rail{display:none}
+  .topbar{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line);
+    padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));align-items:center;justify-content:space-between;gap:12px}
+  .topbar b{font-family:var(--f-display);font-size:18px}
+  .wrap{padding-block:20px 120px}
+  .segbar{display:block;margin-bottom:16px;overflow-x:auto}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px))}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 7px;font-size:11.5px;color:var(--muted);text-decoration:none}
+  .tabbar a svg{width:22px;height:22px}
+  .tabbar a[aria-current="page"]{color:var(--ivy);font-weight:600}
+  .fab{display:flex;position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:41;
+    width:54px;height:54px;border-radius:50%;background:var(--ivy);color:var(--ivy-ink);border:none;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 14px rgba(0,0,0,.2);cursor:pointer}
+  .g2,.g3{grid-template-columns:minmax(0,1fr)}
+  .hero{grid-template-columns:minmax(0,1fr);justify-items:center;gap:18px}
+  .hero>div:last-child{width:100%}
+  .head .btns.desk{display:none}
+  .fld{grid-template-columns:minmax(0,1fr) auto}
+  .fld .k{grid-column:1/-1}
+  .theme{grid-template-columns:minmax(0,1fr) 32px}
+  .theme .nm{grid-column:1/-1}
+  .scrim{align-items:flex-end;padding:0}
+  .sheet{border-radius:16px 16px 0 0;max-height:92vh;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .f2{grid-template-columns:1fr}
+  .area{grid-template-columns:96px minmax(0,1fr) 40px}
+  .thumb{width:60px;height:60px}
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bar i,.ring circle{transition:all .5s ease}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="rail" aria-label="주 메뉴">
+    <div class="brand"><b>Spike</b><span>미국 대학 입시 포트폴리오</span></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="foot">
+      <a class="me" href="#my" id="me"></a>
+      <button class="btn pri" data-act="add">+ 새 기록</button>
+      <div class="mode" id="mode">불러오는 중…</div>
+    </div>
+  </aside>
+  <main>
+    <div class="topbar"><b>Spike</b><span class="small" id="mode-m"></span></div>
+    <div class="wrap" id="view">
+      <p class="small">포트폴리오를 불러오는 중입니다…</p>
+    </div>
+  </main>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="앱 메뉴"></nav>
+<button class="fab" data-act="add" aria-label="새 기록 추가">+</button>
+<div id="modal"></div>
+<div id="lb"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- constants ---------- */
+const MENU=[
+  ["home","대시보드"],["academics","학업 기록"],["activities","활동 기록"],["research","연구·프로젝트"],
+  ["honors","수상·인증"],["story","나의 스토리"],["apply","지원서 활용"],["counsel","피드백·상담"],["parents","공유·학부모"]
+];
+const ROUTES=["home","academics","activities","research","honors","story","apply","counsel","parents","my"];
+const ICON={
+  home:'<path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/>',
+  rec:'<path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="4"/>',
+  story:'<path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/>',
+  apply:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+  my:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>'
+};
+const TABS=[["home","홈","home",["home"]],["activities","기록","rec",["academics","activities","research","honors"]],
+  ["story","포트폴리오","story",["story"]],["apply","지원","apply",["apply"]],["my","마이","my",["my","counsel","parents"]]];
+const TYPE_LABEL={course:"과목",test:"시험",activity:"활동",research:"연구",honor:"수상",essay:"에세이",idea:"에세이 소재",req:"상담 신청",target:"목표 대학"};
+const TYPE_COLOR={activity:"var(--t1)",research:"var(--t2)",honor:"var(--t4)",idea:"var(--t3)"};
+const GP={"A+":4,"A":4,"A-":3.7,"B+":3.3,"B":3,"B-":2.7,"C+":2.3,"C":2,"C-":1.7,"D":1,"F":0};
+const LEVEL_W={"국제":4,"전국":3,"지역":2,"교내":1};
+const LEVEL_CA={"국제":"International","전국":"National","지역":"State/Regional","교내":"School"};
+const GR=["9","10","11","12"];
+
+/* original illustrations used for example records and empty states */
+const SV=b=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">${b}</svg>`);
+const AVATAR_BLANK=SV(`<rect width="400" height="300" fill="#dfe6e1"/><circle cx="200" cy="125" r="52" fill="#a9b8ae"/><path d="M95 300c10-70 55-102 105-102s95 32 105 102z" fill="#a9b8ae"/>`);
+const ILL={
+  app:SV(`<rect width="400" height="300" fill="#dcebe3"/><circle cx="330" cy="50" r="95" fill="#c6dccf"/><rect x="138" y="26" width="124" height="250" rx="20" fill="#16201b"/><rect x="147" y="42" width="106" height="218" rx="11" fill="#f7faf8"/><rect x="159" y="62" width="82" height="96" rx="6" fill="#fff" stroke="#1d5a47" stroke-width="2"/><rect x="169" y="76" width="62" height="7" rx="3.5" fill="#1d5a47"/><rect x="169" y="91" width="46" height="5" rx="2.5" fill="#9bb5a8"/><rect x="169" y="103" width="54" height="5" rx="2.5" fill="#9bb5a8"/><ellipse cx="184" cy="132" rx="13" ry="7" fill="#f2b84b"/><ellipse cx="213" cy="134" rx="13" ry="7" fill="#e8875f"/><rect x="159" y="176" width="82" height="28" rx="14" fill="#1d5a47"/><path d="M186 190h28" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="159" y="216" width="82" height="6" rx="3" fill="#dbe5df"/><rect x="159" y="230" width="60" height="6" rx="3" fill="#dbe5df"/><path d="M282 118q14 32 0 64M299 104q24 46 0 92M316 90q34 60 0 120" fill="none" stroke="#1d5a47" stroke-width="5" stroke-linecap="round" opacity=".75"/><path d="M60 230h50v-30h-50z" fill="#fff" stroke="#9bb5a8" stroke-width="2"/><path d="M68 212h34M68 222h22" stroke="#9bb5a8" stroke-width="3" stroke-linecap="round"/>`),
+  club:SV(`<rect width="400" height="300" fill="#e3e9f2"/><rect x="70" y="30" width="260" height="150" rx="8" fill="#1e2a3a"/><g stroke="#86aee8" stroke-width="2"><path d="M120 70l70 35M120 70l70 75M120 140l70-35M120 140l70 5M190 105l80 0M190 145l80-40M190 105l80 40M190 145l80 0"/></g><g fill="#f4f7fb"><circle cx="120" cy="70" r="11"/><circle cx="120" cy="140" r="11"/><circle cx="190" cy="105" r="11"/><circle cx="190" cy="145" r="11"/></g><g fill="#e3b866"><circle cx="270" cy="105" r="11"/><circle cx="270" cy="145" r="11"/></g><rect x="190" y="180" width="20" height="30" fill="#5c6b78"/><g fill="#3d6fb6"><circle cx="70" cy="245" r="22"/><circle cx="140" cy="250" r="22"/><circle cx="210" cy="246" r="22"/><circle cx="280" cy="250" r="22"/><circle cx="345" cy="245" r="22"/></g><g fill="#2c4f86"><rect x="44" y="266" width="52" height="40" rx="18"/><rect x="114" y="270" width="52" height="40" rx="18"/><rect x="184" y="266" width="52" height="40" rx="18"/><rect x="254" y="270" width="52" height="40" rx="18"/><rect x="319" y="266" width="52" height="40" rx="18"/></g>`),
+  hack:SV(`<rect width="400" height="300" fill="#f3ecdf"/><rect x="40" y="150" width="320" height="14" rx="4" fill="#b07a1e"/><rect x="70" y="96" width="96" height="58" rx="6" fill="#1e2a3a"/><rect x="76" y="102" width="84" height="44" rx="3" fill="#2f4a66"/><path d="M84 114h30M84 124h50M84 134h22" stroke="#e3b866" stroke-width="3" stroke-linecap="round"/><rect x="232" y="96" width="96" height="58" rx="6" fill="#1e2a3a"/><rect x="238" y="102" width="84" height="44" rx="3" fill="#2f4a66"/><path d="M246 114h40M246 124h26M246 134h46" stroke="#86aee8" stroke-width="3" stroke-linecap="round"/><path d="M190 60h20l-3 30h-14z" fill="#e3b866"/><circle cx="200" cy="52" r="16" fill="#e3b866"/><rect x="186" y="90" width="28" height="8" rx="2" fill="#b07a1e"/><circle cx="118" cy="220" r="24" fill="#a45a8a"/><circle cx="200" cy="225" r="24" fill="#1d5a47"/><circle cx="282" cy="220" r="24" fill="#3d6fb6"/><rect x="290" y="30" width="70" height="34" rx="6" fill="#fff"/><text x="325" y="53" font-family="monospace" font-size="18" text-anchor="middle" fill="#b07a1e">48h</text>`),
+  lab:SV(`<rect width="400" height="300" fill="#1a1414"/><circle cx="200" cy="150" r="118" fill="#7a2a1c"/><circle cx="200" cy="150" r="118" fill="url(#g)"/><defs><radialGradient id="g" cx=".45" cy=".45" r=".6"><stop offset="0" stop-color="#e8875f"/><stop offset=".7" stop-color="#b8442b"/><stop offset="1" stop-color="#6e2216"/></radialGradient></defs><circle cx="240" cy="140" r="22" fill="#f6d39a"/><g fill="none" stroke="#5a160d" stroke-width="3" stroke-linecap="round"><path d="M240 140c-40 10-80 4-120-26M240 140c-36 26-70 40-112 44M240 140c-10-40-30-70-62-92M240 140c20 40 18 70 2 104"/></g><g fill="#f2e35a"><circle cx="160" cy="178" r="4"/><circle cx="174" cy="186" r="3"/><circle cx="150" cy="190" r="3"/></g><rect x="134" y="160" width="58" height="44" fill="none" stroke="#72e0a8" stroke-width="3"/><rect x="134" y="146" width="58" height="14" fill="#72e0a8"/><text x="163" y="157" font-family="monospace" font-size="10" text-anchor="middle" fill="#0c1a14">0.87</text>`),
+  tutor:SV(`<rect width="400" height="300" fill="#efe6ef"/><rect x="40" y="40" width="200" height="130" rx="8" fill="#fff" stroke="#d6c3d3" stroke-width="2"/><rect x="58" y="60" width="90" height="22" rx="6" fill="#e3b866"/><rect x="72" y="88" width="110" height="22" rx="6" fill="#86aee8"/><rect x="72" y="116" width="80" height="22" rx="6" fill="#a45a8a"/><rect x="58" y="144" width="60" height="14" rx="5" fill="#e3b866"/><circle cx="300" cy="110" r="34" fill="#1d5a47"/><rect x="266" y="146" width="68" height="80" rx="26" fill="#1d5a47"/><circle cx="110" cy="230" r="20" fill="#e8875f"/><rect x="88" y="252" width="44" height="50" rx="16" fill="#e8875f"/><circle cx="180" cy="236" r="18" fill="#3d6fb6"/><rect x="160" y="256" width="40" height="46" rx="15" fill="#3d6fb6"/><path d="M258 168l-30 -30" stroke="#1d5a47" stroke-width="8" stroke-linecap="round"/>`),
+  swim:SV(`<rect width="400" height="300" fill="#bfe3f0"/><g fill="#9fd3e6"><rect y="70" width="400" height="44"/><rect y="158" width="400" height="44"/></g><g stroke="#fff" stroke-width="4" stroke-dasharray="10 8"><path d="M0 70h400M0 114h400M0 158h400M0 202h400M0 246h400"/></g><path d="M120 136q30-18 70 0t70 0" fill="none" stroke="#5aa9c6" stroke-width="3"/><ellipse cx="230" cy="132" rx="52" ry="11" fill="#e8b892"/><circle cx="288" cy="128" r="13" fill="#d64a3a"/><path d="M190 126q-30-40-10-60" fill="none" stroke="#e8b892" stroke-width="12" stroke-linecap="round"/><path d="M180 140q-18 8-36 4" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/><rect x="340" y="20" width="44" height="28" rx="5" fill="#fff"/><text x="362" y="40" font-family="monospace" font-size="15" text-anchor="middle" fill="#1e2a3a">4</text>`),
+  medal:SV(`<rect width="400" height="300" fill="#f4f1e8"/><path d="M160 20h36l18 90h-36zM240 20h-36l-18 90h36z" fill="#3d6fb6"/><path d="M196 20h8l-4 90z" fill="#d64a3a"/><circle cx="200" cy="170" r="72" fill="#c9cdd2"/><circle cx="200" cy="170" r="58" fill="#e4e7ea" stroke="#a9afb6" stroke-width="3"/><path d="M200 132l11 24 26 3-19 18 5 26-23-13-23 13 5-26-19-18 26-3z" fill="#a9afb6"/><rect x="40" y="250" width="320" height="28" rx="6" fill="#fff"/><path d="M60 264h180" stroke="#d6d0bf" stroke-width="6" stroke-linecap="round"/>`),
+  fair:SV(`<rect width="400" height="300" fill="#e9eef0"/><path d="M40 70l80-20v200l-80 20z" fill="#d8e6df"/><path d="M120 50h160v200H120z" fill="#fff"/><path d="M280 50l80 20v200l-80-20z" fill="#d8e6df"/><rect x="140" y="66" width="120" height="16" rx="4" fill="#1d5a47"/><circle cx="170" cy="130" r="26" fill="#e8875f"/><circle cx="170" cy="130" r="8" fill="#f6d39a"/><path d="M212 108h40M212 120h30M212 132h36" stroke="#9bb5a8" stroke-width="5" stroke-linecap="round"/><path d="M144 220l24-30 22 14 26-40 30 22" fill="none" stroke="#3d6fb6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 110h50M54 124h40M54 138h46M294 110h50M300 124h40M296 138h46" stroke="#9bb5a8" stroke-width="4" stroke-linecap="round"/><path d="M318 170l18 10-18 10z" fill="#e3b866"/>`),
+  student:SV(`<rect width="400" height="300" fill="#d7e6dd"/><circle cx="200" cy="122" r="58" fill="#e8c4a0"/><path d="M142 112q2-62 58-64 58 2 60 62-24-26-60-28-34 2-58 30z" fill="#2a2421"/><circle cx="180" cy="128" r="5" fill="#2a2421"/><circle cx="220" cy="128" r="5" fill="#2a2421"/><path d="M186 152q14 10 28 0" fill="none" stroke="#a15a46" stroke-width="3" stroke-linecap="round"/><path d="M92 300c8-66 52-104 108-104s100 38 108 104z" fill="#1d5a47"/><path d="M176 200l24 30 24-30" fill="#fff"/>`),
+  welcome:SV(`<rect width="400" height="300" fill="#e0ece6"/><path d="M0 230h400v70H0z" fill="#c6dccf"/><path d="M90 230V120l110-60 110 60v110z" fill="#f7faf8"/><path d="M80 124l120-70 120 70" fill="none" stroke="#1d5a47" stroke-width="8" stroke-linejoin="round"/><g fill="#1d5a47"><rect x="118" y="140" width="18" height="90"/><rect x="160" y="140" width="18" height="90"/><rect x="222" y="140" width="18" height="90"/><rect x="264" y="140" width="18" height="90"/></g><circle cx="200" cy="104" r="14" fill="#e3b866"/><rect x="186" y="186" width="28" height="44" rx="14" fill="#16201b"/><g fill="#fff" stroke="#1d5a47" stroke-width="2"><rect x="290" y="34" width="70" height="88" rx="4" transform="rotate(8 325 78)"/><rect x="40" y="40" width="64" height="80" rx="4" transform="rotate(-8 72 80)"/></g><path d="M302 60h40M300 74h46M298 88h30" stroke="#9bb5a8" stroke-width="4" stroke-linecap="round"/><path d="M52 66h36M50 80h40M48 94h26" stroke="#9bb5a8" stroke-width="4" stroke-linecap="round"/>`)
+};
+
+const FIELDS={
+  course:[{k:"subject",l:"과목명",req:1,ph:"AP Calculus BC"},{k:"level",l:"과정",opt:["AP","IB HL","IB SL","Honors","Regular"]},
+    {row:[{k:"grade",l:"학년",opt:GR},{k:"sem",l:"학기",opt:["1","2"]}]},{k:"mark",l:"성적",opt:Object.keys(GP)}],
+  test:[{k:"name",l:"시험",opt:["SAT","ACT","AP","IB","TOEFL","IELTS"]},{k:"subject",l:"과목 (AP·IB인 경우)",ph:"예: Calculus BC"},
+    {row:[{k:"score",l:"점수",req:1,ph:"1540"},{k:"date",l:"응시일",t:"date"}]}],
+  activity:[{k:"role",l:"역할 (Position)",req:1,max:50,ph:"Founder & Lead Developer"},{k:"name",l:"단체·활동명 (Organization)",req:1,max:100},
+    {k:"category",l:"분류",opt:["Academic","Research","Science/Math","Computer/Technology","Community Service","Arts","Athletics","Entrepreneurial","Other Club/Activity"]},
+    {k:"grades",l:"참여 학년",multi:GR},{row:[{k:"hours",l:"주당 시간",t:"number"},{k:"weeks",l:"연간 주 수",t:"number"}]},
+    {k:"desc",l:"설명 (Description)",ta:1,max:150,hint:"Common App 활동 설명은 150자 이내입니다. 영어로 쓰는 것을 권장합니다."},
+    {k:"theme",l:"관심 주제 태그",list:1,ph:"예: AI·헬스케어"},{k:"link",l:"증빙 자료 링크",ph:"https://"},{k:"feedback",l:"카운슬러 코멘트",ta:1}],
+  research:[{k:"title",l:"연구 제목",req:1},{row:[{k:"stage",l:"진행 단계",opt:["주제 선정","가설","실험","결과 분석","완료"]},{k:"grade",l:"학년",opt:GR}]},
+    {k:"competition",l:"출품 대회",ph:"예: KSEF, ISEF"},{k:"summary",l:"요약 (가설 → 방법 → 결과)",ta:1},
+    {k:"theme",l:"관심 주제 태그",list:1},{k:"link",l:"결과물 링크",ph:"GitHub, 논문, 영상"},{k:"feedback",l:"카운슬러 코멘트",ta:1}],
+  honor:[{k:"title",l:"수상명",req:1,max:100},{k:"level",l:"수준",opt:["교내","지역","전국","국제"]},{k:"grades",l:"수상 학년",multi:GR},{k:"theme",l:"관심 주제 태그",list:1}],
+  essay:[{k:"title",l:"제목",req:1,ph:"Personal Statement"},{row:[{k:"school",l:"대학 (Supplemental)",ph:"공통이면 비워두기"},{k:"status",l:"상태",opt:["아이디어","초안","첨삭 중","완료"]}]},
+    {k:"prompt",l:"문항",ta:1},{k:"limit",l:"단어 제한",t:"number",ph:"650"},{k:"body",l:"본문",ta:1,big:1},{k:"feedback",l:"카운슬러 코멘트",ta:1}],
+  idea:[{k:"text",l:"에피소드·경험 메모",ta:1,req:1},{k:"theme",l:"관심 주제 태그",list:1}],
+  req:[{row:[{k:"date",l:"희망 일자",t:"date",req:1},{k:"topic",l:"상담 주제",opt:["활동 구성","에세이 첨삭","대학 리스트","시험 전략","인터뷰 준비","기타"]}]},{k:"note",l:"요청 내용",ta:1}],
+  target:[{k:"name",l:"대학명",req:1},{row:[{k:"tier",l:"구분",opt:["Reach","Target","Safety"]},{k:"plan",l:"지원 유형",opt:["ED","EA","REA","RD"]}]},{k:"due",l:"마감일",t:"date"}]
+};
+
+/* ---------- state ---------- */
+const S={mode:"loading",profile:{},items:[],route:"home"};
+let db=null,col=null,uid=null,dl=null,unsub=null,toastT=null;
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rid=()=>"it-"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const by=t=>S.items.filter(i=>i.type===t);
+const pct=x=>Math.round(Math.max(0,Math.min(1,x))*100);
+const words=s=>(String(s||"").trim().match(/\S+/g)||[]).length;
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+function dday(s){if(!s)return null;const d=new Date(s+"T00:00:00");if(isNaN(d))return null;return Math.round((d-today())/86400000)}
+function ddLabel(n){return n==null?"—":n===0?"D-Day":n>0?"D-"+n:"D+"+(-n)}
+function fmtDate(s){if(!s)return "";const d=new Date(s+"T00:00:00");return isNaN(d)?s:(d.getMonth()+1)+"월 "+d.getDate()+"일"}
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2600)}
+/* ---------- photos ---------- */
+const PHOTO_TYPES=["activity","research","honor"];
+const photosOf=pid=>S.items.filter(i=>i.type==="photo"&&i.parent===pid).sort((a,b)=>(a.created||0)-(b.created||0));
+const avatarSrc=()=>{const a=photosOf("profile");return a.length?a[a.length-1].src:AVATAR_BLANK};
+function phBtn(p,alt,cls){return `<button type="button" class="ph ${cls||""}" data-act="view-photo" data-id="${esc(p.id)}"><img src="${esc(p.src)}" alt="${esc(alt||"사진")}" loading="lazy">${p.example?'<span class="ex-tag">예시</span>':""}</button>`}
+function thumb(it,cls){const ps=photosOf(it.id);if(!ps.length)return "";return `<span class="ph thumb ${cls||""}" style="cursor:pointer" data-act="view-photo" data-id="${esc(ps[0].id)}"><img src="${esc(ps[0].src)}" alt="${esc(itemTitle(it))} 사진" loading="lazy">${ps[0].example?'<span class="ex-tag">예시</span>':""}${ps.length>1?`<span class="n">+${ps.length-1}</span>`:""}</span>`}
+function itemTitle(i){return i.type==="activity"?(i.role+" · "+i.name):(i.title||i.subject||i.name||"")}
+function allPhotos(){const ok=new Set(S.items.filter(i=>PHOTO_TYPES.includes(i.type)).map(i=>i.id));return S.items.filter(i=>i.type==="photo"&&ok.has(i.parent)).sort((a,b)=>(b.created||0)-(a.created||0))}
+async function shrink(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=new Image();await new Promise((ok,bad)=>{img.onload=ok;img.onerror=bad;img.src=url});
+    let max=1100,q=.8,out="";
+    for(let k=0;k<6;k++){
+      const s=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+      const c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.naturalWidth*s));c.height=Math.max(1,Math.round(img.naturalHeight*s));
+      const x=c.getContext("2d");x.fillStyle="#ffffff";x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);
+      out=c.toDataURL("image/jpeg",q);if(out.length<230000)break;max=Math.round(max*.8);q=Math.max(.5,q-.08);
+    }
+    return out;
+  }finally{URL.revokeObjectURL(url)}
+}
+async function addPhotos(files,parent){
+  const list=[...files].filter(f=>/^image\//.test(f.type)||/\.(jpe?g|png|webp|gif)$/i.test(f.name));
+  if(!list.length){toast("JPG·PNG 사진 파일을 골라 주세요");return 0}
+  let n=0;
+  for(const f of list.slice(0,6)){
+    try{const src=await shrink(f);await putItem({id:"ph-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),type:"photo",parent,src,created:Date.now()});n++}
+    catch(e){toast("이 사진 형식은 열 수 없어요. JPG나 PNG로 올려 주세요")}
+  }
+  return n;
+}
+function openPhoto(id){
+  const p=S.items.find(x=>x.id===id);if(!p)return;
+  const par=p.parent==="profile"?null:S.items.find(x=>x.id===p.parent);
+  $("#lb").innerHTML=`<div class="lb" data-act="lb-close"><img src="${esc(p.src)}" alt="${esc(par?itemTitle(par):"프로필 사진")}"><p>${esc(par?TYPE_LABEL[par.type]+" · "+itemTitle(par):"프로필 사진")}${p.example?" (예시 이미지)":""}</p><button type="button" data-act="lb-close">닫기</button></div>`;
+}
+
+function themes(){const s=new Set();S.items.forEach(i=>{if(i.theme)s.add(i.theme.trim())});(S.profile.themes||[]).forEach(t=>s.add(t));return [...s].filter(Boolean)}
+
+/* ---------- derived ---------- */
+function gpa(){
+  const cs=by("course").filter(c=>c.mark in GP);
+  if(!cs.length)return null;
+  let u=0,w=0;
+  cs.forEach(c=>{const g=GP[c.mark];u+=g;const b=(c.level==="AP"||c.level==="IB HL")?1:(c.level==="Honors"||c.level==="IB SL")?.5:0;w+=g>0?g+b:0});
+  return {u:(u/cs.length).toFixed(2),w:(w/cs.length).toFixed(2),n:cs.length};
+}
+function bestTest(){
+  const t=by("test");const sat=t.filter(x=>x.name==="SAT").map(x=>+x.score||0);const act=t.filter(x=>x.name==="ACT").map(x=>+x.score||0);
+  if(sat.length)return "SAT "+Math.max(...sat);if(act.length)return "ACT "+Math.max(...act);return null;
+}
+function actHours(a){return (+a.hours||0)*(+a.weeks||0)*Math.max(1,(a.grades||[]).length)}
+function topActivities(){return by("activity").slice().sort((a,b)=>actHours(b)-actHours(a)).slice(0,10)}
+function topHonors(){return by("honor").slice().sort((a,b)=>(LEVEL_W[b.level]||0)-(LEVEL_W[a.level]||0)||Math.max(0,...(b.grades||[]).map(Number))-Math.max(0,...(a.grades||[]).map(Number))).slice(0,5)}
+function spike(){
+  const m={};["activity","research","honor","idea"].forEach(t=>by(t).forEach(i=>{const k=(i.theme||"").trim();if(!k)return;(m[k]=m[k]||{activity:0,research:0,honor:0,idea:0,total:0});m[k][t]++;m[k].total++}));
+  const arr=Object.entries(m).map(([name,v])=>Object.assign({name},v)).sort((a,b)=>b.total-a.total);
+  const all=arr.reduce((s,x)=>s+x.total,0);
+  return {arr,all,top:arr[0]||null,share:all?arr[0].total/all:0};
+}
+function areas(){
+  const c=by("course").length,t=by("test").length,a=by("activity").length,r=by("research"),h=by("honor").length,e=by("essay");
+  const sp=spike();
+  return [
+    ["academics","학업",(Math.min(c/6,1)*.6)+(t?0.4:0)],
+    ["activities","활동",a/10],
+    ["research","연구",r.length?(r.some(x=>x.stage==="완료")?1:.6):0],
+    ["honors","수상",h/5],
+    ["story","스토리",(S.profile.major?.4:0)+(sp.top&&sp.top.total>=3&&sp.share>=.4?.6:sp.top?.3:0)],
+    ["apply","지원서",(e.length?.4:0)+Math.min(e.filter(x=>x.status==="완료").length/2,1)*.6]
+  ];
+}
+function overall(){const a=areas();return pct(a.reduce((s,x)=>s+Math.min(1,x[2]),0)/a.length)}
+function upcoming(){return (S.profile.targets||[]).map(t=>Object.assign({},t,{d:dday(t.due)})).filter(t=>t.d!=null&&t.d>=0).sort((a,b)=>a.d-b.d)}
+function todos(){
+  const out=[];const a=by("activity");
+  const up=upcoming()[0];
+  if(up)out.push([up.d<=7?"amber":"ivy",`${up.name} ${up.plan||""} 마감 ${ddLabel(up.d)} — 지원서 최종 점검`,"apply"]);
+  if(a.length<10)out.push(["",`활동 ${10-a.length}개 더 기록하면 Common App 활동란 10칸을 채웁니다`,"activities"]);
+  const over=a.filter(x=>(x.desc||"").length>150).length;
+  if(over)out.push(["danger",`활동 설명 150자 초과 ${over}건 — 줄여야 합니다`,"apply"]);
+  const nodesc=a.filter(x=>!x.desc).length;
+  if(nodesc)out.push(["",`설명이 비어 있는 활동 ${nodesc}건`,"activities"]);
+  const h=by("honor").length;if(h<5)out.push(["",`수상 ${5-h}건 더 기록 가능 (Honors 5칸)`,"honors"]);
+  const ed=by("essay").filter(x=>x.status!=="완료");if(ed.length)out.push(["",`진행 중인 에세이 ${ed.length}편 — ${ed.map(x=>x.title).slice(0,2).join(", ")}`,"apply"]);
+  if(!by("research").length)out.push(["","연구·프로젝트를 1건 이상 기록해 보세요","research"]);
+  if(!S.profile.major)out.push(["","희망 전공을 정하면 스토리 분석이 정확해집니다","my"]);
+  return out.slice(0,6);
+}
+
+/* ---------- persistence ---------- */
+async function putItem(it){
+  if(S.mode==="db"){
+    try{await col.doc(it.id).set(it)}catch(e){toast(e&&e.code==="quota_exceeded"?"저장 공간이 가득 찼습니다. 오래된 기록을 지워 주세요.":"저장하지 못했어요. 이 페이지에 쓸 권한이 있는지 확인해 주세요.")}
+  }else{const i=S.items.findIndex(x=>x.id===it.id);if(i>=0)S.items[i]=it;else S.items.push(it);render()}
+}
+async function delItem(id){
+  const kids=S.items.filter(x=>x.type==="photo"&&x.parent===id&&x.id!==id).map(x=>x.id);
+  if(S.mode==="db"){try{await col.doc(id).delete();for(const k of kids)await col.doc(k).delete()}catch(e){toast("삭제하지 못했어요.")}}
+  else{S.items=S.items.filter(x=>x.id!==id&&!kids.includes(x.id));render()}
+}
+async function putProfile(p){
+  S.profile=p;
+  if(S.mode==="db"){try{await col.doc("profile").set(p)}catch(e){toast("프로필을 저장하지 못했어요.")}}
+  render();
+}
+
+/* ---------- sample data (examples) ---------- */
+function sample(){
+  const y=today().getFullYear();
+  const P={name:"예시 학생 김서연",school:"○○국제학교",grade:"12",major:"Computer Science",themes:["AI·헬스케어"],example:true,
+    targets:[{id:"tg1",name:"Stanford University",tier:"Reach",plan:"REA",due:y+"-11-01"},{id:"tg2",name:"Carnegie Mellon University",tier:"Reach",plan:"RD",due:(y+1)+"-01-03"},
+      {id:"tg3",name:"University of Illinois Urbana-Champaign",tier:"Target",plan:"EA",due:y+"-11-01"},{id:"tg4",name:"UC San Diego",tier:"Target",plan:"RD",due:y+"-11-30"},
+      {id:"tg5",name:"Purdue University",tier:"Safety",plan:"EA",due:y+"-11-01"}]};
+  let n=0;const I=o=>Object.assign({id:"ex-"+(++n),created:Date.now()-n*3600e3,example:true},o);
+  const L=[
+    I({type:"course",subject:"AP Calculus BC",level:"AP",grade:"11",sem:"1",mark:"A"}),
+    I({type:"course",subject:"AP Computer Science A",level:"AP",grade:"10",sem:"2",mark:"A+"}),
+    I({type:"course",subject:"AP Physics C: Mechanics",level:"AP",grade:"11",sem:"2",mark:"A-"}),
+    I({type:"course",subject:"AP Statistics",level:"AP",grade:"11",sem:"2",mark:"A"}),
+    I({type:"course",subject:"Honors Chemistry",level:"Honors",grade:"10",sem:"1",mark:"A"}),
+    I({type:"course",subject:"English 11 Honors",level:"Honors",grade:"11",sem:"1",mark:"A-"}),
+    I({type:"course",subject:"AP Biology",level:"AP",grade:"10",sem:"2",mark:"B+"}),
+    I({type:"course",subject:"World History",level:"Regular",grade:"9",sem:"1",mark:"A"}),
+    I({type:"test",name:"SAT",score:"1540",date:y+"-03-08"}),
+    I({type:"test",name:"AP",subject:"Calculus BC",score:"5",date:(y)+"-05-12"}),
+    I({type:"test",name:"AP",subject:"Computer Science A",score:"5",date:(y-1)+"-05-09"}),
+    I({type:"activity",role:"Founder & Lead Developer",name:"MediLens, pill-label reader app for low-vision seniors",category:"Computer/Technology",grades:["10","11","12"],hours:6,weeks:40,
+      desc:"Built an OCR + text-to-speech app that reads pill labels aloud; 1,200 downloads; piloted with 2 local pharmacies.",theme:"AI·헬스케어",link:"",feedback:"설명에 사용자 인터뷰 숫자를 넣으면 더 설득력 있음"}),
+    I({type:"activity",role:"President",name:"School AI Club",category:"Academic",grades:["11","12"],hours:3,weeks:32,
+      desc:"Grew club from 8 to 35 members; ran weekly ML workshops and a 48-hour hackathon with 60 participants.",theme:"AI·헬스케어"}),
+    I({type:"activity",role:"Research Intern",name:"University medical imaging lab summer program",category:"Research",grades:["11"],hours:30,weeks:6,
+      desc:"Labeled retinal images and trained a CNN baseline reaching 0.89 AUC for early retinopathy detection.",theme:"AI·헬스케어"}),
+    I({type:"activity",role:"Volunteer Coding Tutor",name:"Local children's center coding class",category:"Community Service",grades:["9","10","11"],hours:2,weeks:30,
+      desc:"Taught Scratch and Python to 15 elementary students per term; wrote a 12-lesson curriculum used by new tutors.",theme:"교육 형평성"}),
+    I({type:"activity",role:"Varsity Swimmer, Captain (12)",name:"School Swim Team",category:"Athletics",grades:["9","10","11","12"],hours:8,weeks:20,
+      desc:"Competed in 100m freestyle at regional meets; as captain, set up peer-led training plans for 18 swimmers.",theme:"리더십"}),
+    I({type:"activity",role:"Second Violin",name:"School Orchestra",category:"Arts",grades:["9","10"],hours:3,weeks:30,desc:"",theme:"음악"}),
+    I({type:"research",title:"Smartphone-based early diabetic retinopathy screening with lightweight CNNs",stage:"결과 분석",grade:"11",competition:"KSEF → ISEF 준비",
+      summary:"가설: 경량 CNN으로 스마트폰 촬영 안저 이미지에서 초기 망막병증을 선별할 수 있다. 공개 데이터셋 3,600장으로 학습, 검증 AUC 0.87.",theme:"AI·헬스케어",link:""}),
+    I({type:"honor",title:"Regional Science & Engineering Fair, 1st Place (Computational Biology)",level:"지역",grades:["11"],theme:"AI·헬스케어"}),
+    I({type:"honor",title:"Korea Olympiad in Informatics, Silver Medal",level:"전국",grades:["10"],theme:"AI·헬스케어"}),
+    I({type:"honor",title:"AP Scholar with Distinction",level:"전국",grades:["11"],theme:""}),
+    I({type:"honor",title:"Seoul Youth AI Hackathon, Grand Prize",level:"지역",grades:["11"],theme:"AI·헬스케어"}),
+    I({type:"essay",title:"Personal Statement",school:"",status:"첨삭 중",limit:650,prompt:"Common App prompt 2",
+      body:"The first time I read my grandmother's pill bag aloud for her, I realized the print was not small to me but impossible for her...",feedback:"도입은 좋음. 3문단에서 기술 설명을 줄이고 깨달음을 늘릴 것"}),
+    I({type:"essay",title:"Intellectual Vitality",school:"Stanford University",status:"초안",limit:250,prompt:"Reflect on an idea or experience that makes you genuinely excited about learning.",body:""}),
+    I({type:"idea",text:"할머니 약봉투를 대신 읽어드리던 기억 → MediLens 시작 계기",theme:"AI·헬스케어"}),
+    I({type:"idea",text:"아동센터에서 아이와 함께 버그를 찾으며 배운 인내",theme:"교육 형평성"}),
+    I({type:"req",date:y+"-11-03",topic:"에세이 첨삭",note:"Stanford 보충 에세이 초안 검토 요청"})
+  ];
+  const find=f=>L.find(f);
+  const pics=[
+    [find(i=>i.role==="Founder & Lead Developer"),["app"]],
+    [find(i=>i.name==="School AI Club"),["club","hack"]],
+    [find(i=>i.role==="Research Intern"),["lab"]],
+    [find(i=>i.role==="Volunteer Coding Tutor"),["tutor"]],
+    [find(i=>i.name==="School Swim Team"),["swim"]],
+    [find(i=>i.type==="research"),["fair","lab"]],
+    [find(i=>i.type==="honor"&&/Regional Science/.test(i.title)),["fair"]],
+    [find(i=>i.type==="honor"&&/Olympiad/.test(i.title)),["medal"]],
+    [find(i=>i.type==="honor"&&/Hackathon/.test(i.title)),["hack"]]
+  ];
+  let k=0;
+  pics.forEach(([it,keys])=>{if(!it)return;keys.forEach(key=>L.push({id:"ex-ph-"+(++k),type:"photo",parent:it.id,src:ILL[key],example:true,created:it.created+k}))});
+  L.push({id:"ex-ph-av",type:"photo",parent:"profile",src:ILL.student,example:true,created:Date.now()});
+  return {P,L};
+}
+
+/* ---------- router ---------- */
+function setRoute(){const h=(location.hash||"").slice(1);S.route=ROUTES.includes(h)?h:"home";render();window.scrollTo(0,0)}
+window.addEventListener("hashchange",setRoute);
+
+/* ---------- render chrome ---------- */
+function renderChrome(){
+  $("#nav").innerHTML=MENU.map(([r,l],i)=>`<a href="#${r}" ${S.route===r?'aria-current="page"':""}><span class="k">${i+1}</span>${l}</a>`).join("")
+    +`<a href="#my" ${S.route==="my"?'aria-current="page"':""} style="margin-top:8px"><span class="k">·</span>프로필·목표 대학</a>`;
+  $("#tabbar").innerHTML=TABS.map(([r,l,ic,grp])=>`<a href="#${r}" ${grp.includes(S.route)?'aria-current="page"':""}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON[ic]}</svg>${l}</a>`).join("");
+  const m=S.mode==="local"?"<b>저장됨</b> · 이 기기 브라우저에 보관":S.mode==="db"?"<b>저장됨</b> · 내 계정에만 보관":S.mode==="demo"?"<b>체험 모드</b> · 새로고침하면 사라짐":"불러오는 중…";
+  $("#mode").innerHTML=m;$("#mode-m").innerHTML=S.mode==="demo"?"체험 모드":"";
+  $("#me").innerHTML=S.mode==="loading"?"":`<img src="${esc(avatarSrc())}" alt=""><span>${esc(S.profile.name||"프로필 설정")}</span>`;
+}
+function segbar(){
+  const rec=[["academics","학업"],["activities","활동"],["research","연구"],["honors","수상"]];
+  const my=[["my","프로필"],["counsel","상담"],["parents","학부모"]];
+  const set=rec.some(x=>x[0]===S.route)?rec:my.some(x=>x[0]===S.route)?my:null;
+  if(!set)return "";
+  return `<div class="segbar"><div class="seg">${set.map(([r,l])=>`<a href="#${r}" ${S.route===r?'aria-current="page"':""}>${l}</a>`).join("")}</div></div>`;
+}
+function banner(){
+  if(S.mode==="demo")return `<div class="banner"><span><b>체험 모드</b> — 예시 학생 데이터로 기능을 둘러보는 중입니다. 입력한 내용은 저장되지 않습니다.</span></div>`;
+  if((S.mode==="db"||S.mode==="local")&&(S.profile.example||S.items.some(i=>i.example)))return `<div class="banner"><span><b>예시 데이터</b>가 들어 있습니다. 둘러본 뒤 마이 › 데이터에서 지우고 실제 기록을 시작하세요.</span><a class="btn sm" href="#my">데이터 관리</a></div>`;
+  return "";
+}
+function head(eyebrow,title,lede,btns){
+  return `<div class="head"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1>${lede?`<p class="lede">${lede}</p>`:""}</div>${btns?`<div class="btns desk">${btns}</div>`:""}</div>`;
+}
+function addBtn(type,label){return `<button class="btn pri" data-act="new" data-type="${type}">+ ${label||TYPE_LABEL[type]+" 추가"}</button>`}
+
+/* ---------- views ---------- */
+function vEmpty(){
+  return `<div class="panel" style="max-width:620px;margin:40px auto;text-align:left;display:flex;flex-direction:column;gap:14px">
+    <img class="ill" src="${ILL.welcome}" alt="대학 건물과 서류를 그린 일러스트">
+    <div class="eyebrow">시작하기</div><h1>내 입시 포트폴리오를 만들어 볼까요?</h1>
+    <p class="lede">학업, 활동, 연구, 수상을 기록하면 Common App 활동란 10개·수상 5개 형식으로 자동 정리되고, 관심사 흐름(스파이크)과 추천서용 브래그 시트가 만들어집니다. 기록은 내 계정에만 저장됩니다.</p>
+    <div class="btns"><button class="btn pri" data-act="seed">예시 학생 데이터로 둘러보기</button><button class="btn" data-act="start">직접 입력 시작</button></div></div>`;
+}
+function vHome(){
+  const p=S.profile,g=gpa(),bt=bestTest(),ov=overall(),C=2*Math.PI*66;
+  const up=upcoming().slice(0,5),td=todos();
+  const recent=S.items.filter(i=>["activity","research","honor","essay","course","test"].includes(i.type)).sort((a,b)=>(b.created||0)-(a.created||0)).slice(0,5);
+  const gal=allPhotos().slice(0,8);
+  return `<div class="head"><div class="who"><a href="#my"><img class="avatar lg" src="${esc(avatarSrc())}" alt="프로필 사진"></a><div><div class="eyebrow">대시보드</div><h1>${esc(p.name||"내")} 포트폴리오</h1><p class="lede">${[p.school,p.grade?p.grade+"학년":"",p.major?"희망 전공 "+p.major:""].filter(Boolean).map(esc).join(" · ")||"마이에서 학교·학년·희망 전공을 입력하세요"}</p></div></div><div class="btns desk">${addBtn("activity","새 기록")}</div></div>`
+  +`<div class="panel hero">
+      <div class="ring"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="66" fill="none" stroke="var(--sunk)" stroke-width="12"/><circle cx="80" cy="80" r="66" fill="none" stroke="var(--ivy)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-ov/100)}"/></svg>
+        <div class="c"><b>${ov}%</b><span>포트폴리오 완성도</span></div></div>
+      <div>${areas().map(([r,l,v])=>`<a class="area" href="#${r}"><span class="lab">${l}</span><span class="bar"><i style="width:${pct(v)}%"></i></span><span class="pct">${pct(v)}%</span></a>`).join("")}</div>
+    </div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="panel stat"><span>GPA (Unweighted · Weighted)</span><b>${g?g.u+" · "+g.w:"—"}</b><span>${g?g.n+"개 과목 기준":"과목 성적을 입력하세요"}</span></div>
+      <div class="panel stat"><span>대표 시험 점수</span><b>${esc(bt||"—")}</b><span>${by("test").length}건 기록</span></div>
+      <div class="panel stat"><span>활동 · 연구 · 수상</span><b>${by("activity").length} · ${by("research").length} · ${by("honor").length}</b><span>Common App 활동 10 · 수상 5칸</span></div>
+    </div>
+    <div class="grid g2">
+      <div class="sec"><div class="sec-h"><h2>마감 D-day</h2><a class="btn sm ghost" href="#my">목표 대학 관리</a></div>
+        <div class="list">${up.length?up.map(t=>`<div class="row"><div class="main"><h3>${esc(t.name)}</h3><div class="meta"><span>${esc(t.plan||"")}</span><span>${fmtDate(t.due)}</span><span class="chip">${esc(t.tier||"")}</span></div></div><span class="dday" style="color:${t.d<=7?"var(--amber)":"var(--ink)"}">${ddLabel(t.d)}</span></div>`).join(""):`<div class="empty">다가오는 마감이 없습니다.<a class="btn sm" href="#my">목표 대학 추가</a></div>`}</div></div>
+      <div class="sec"><div class="sec-h"><h2>이번 주 할 일</h2></div>
+        <div class="list">${td.length?td.map(([c,t,r])=>`<a class="row click" href="#${r}" style="text-decoration:none;color:inherit"><span class="dot" style="margin-top:8px;background:${c==="amber"?"var(--amber)":c==="danger"?"var(--danger)":"var(--ivy)"}"></span><div class="main">${esc(t)}</div></a>`).join(""):`<div class="empty">지금은 할 일이 없습니다.</div>`}</div></div>
+    </div>
+    <div class="sec"><div class="sec-h"><h2>활동 사진</h2><span class="small">${allPhotos().length}장</span></div>
+      ${gal.length?`<div class="gallery">${gal.map(ph=>{const par=S.items.find(x=>x.id===ph.parent);return `<figure>${phBtn(ph,par?itemTitle(par):"")}<figcaption>${esc(par?itemTitle(par):"")}</figcaption></figure>`}).join("")}</div>`:`<div class="list"><div class="empty">활동·연구·수상 기록에 현장 사진, 결과물, 상장을 올리면 이곳에 모입니다.</div></div>`}</div>
+    <div class="sec"><div class="sec-h"><h2>최근 기록</h2></div><div class="list">${recent.length?recent.map(rowItem).join(""):`<div class="empty">아직 기록이 없습니다.</div>`}</div></div>`;
+}
+function rowItem(i){
+  let t="",m=[];
+  if(i.type==="course"){t=i.subject;m=[i.level,i.grade&&i.grade+"학년 "+(i.sem||"")+"학기",i.mark&&"성적 "+i.mark]}
+  else if(i.type==="test"){t=i.name+(i.subject?" "+i.subject:"");m=["점수 "+i.score,fmtDate(i.date)]}
+  else if(i.type==="activity"){t=i.role+" · "+i.name;m=[i.category,(i.grades||[]).join("·")&&(i.grades||[]).join("·")+"학년",i.hours&&i.hours+"시간/주"]}
+  else if(i.type==="research"){t=i.title;m=[i.stage,i.competition]}
+  else if(i.type==="honor"){t=i.title;m=[i.level,(i.grades||[]).join("·")&&(i.grades||[]).join("·")+"학년"]}
+  else if(i.type==="essay"){t=i.title+(i.school?" — "+i.school:"");m=[i.status,words(i.body)+(i.limit?"/"+i.limit:"")+" words"]}
+  else{t=i.text||i.topic||"";m=[]}
+  return `<div class="row click" data-act="edit" data-id="${esc(i.id)}">${thumb(i,"sm")}<div class="main"><span class="chip ${i.type==="activity"||i.type==="research"?"ivy":""}">${TYPE_LABEL[i.type]}</span><h3 style="font-weight:500">${esc(t)}</h3><div class="meta">${m.filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join("")}</div></div></div>`;
+}
+function vAcademics(){
+  const g=gpa(),cs=by("course").slice().sort((a,b)=>(+b.grade||0)-(+a.grade||0)||(+b.sem||0)-(+a.sem||0)),ts=by("test").slice().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const ap=cs.filter(c=>c.level==="AP"||(c.level||"").startsWith("IB")).length;
+  return head("학업 기록 · Academics","학업",`GPA, AP·IB 과목, SAT·ACT·TOEFL 점수를 학기별로 관리합니다.`,addBtn("course")+addBtn("test"))
+  +`<div class="grid g3"><div class="panel stat"><span>Unweighted GPA (4.0)</span><b>${g?g.u:"—"}</b><span>A+는 4.0으로 계산</span></div>
+     <div class="panel stat"><span>Weighted GPA</span><b>${g?g.w:"—"}</b><span>AP·IB HL +1.0 · Honors·IB SL +0.5</span></div>
+     <div class="panel stat"><span>AP·IB 과목</span><b>${ap}</b><span>전체 ${cs.length}과목 중</span></div></div>
+   <p class="small" style="margin:8px 0 0">가중 GPA 계산 방식은 학교마다 다릅니다. 학교 성적표의 공식 GPA를 함께 확인하세요.</p>
+   <div class="sec"><div class="sec-h"><h2>과목 성적</h2>${addBtn("course")}</div>
+     <div class="list">${cs.length?cs.map(c=>`<div class="row click" data-act="edit" data-id="${esc(c.id)}"><div class="main"><h3 style="font-weight:500">${esc(c.subject)}</h3><div class="meta"><span>${esc(c.grade)}학년 ${esc(c.sem)}학기</span>${c.level!=="Regular"?`<span class="chip ivy">${esc(c.level)}</span>`:""}</div></div><span class="num" style="font-size:16px">${esc(c.mark)}</span></div>`).join(""):`<div class="empty">과목 성적을 추가하세요.</div>`}</div></div>
+   <div class="sec"><div class="sec-h"><h2>시험 점수</h2>${addBtn("test")}</div>
+     <div class="list">${ts.length?ts.map(t=>`<div class="row click" data-act="edit" data-id="${esc(t.id)}"><div class="main"><h3 style="font-weight:500">${esc(t.name)}${t.subject?" · "+esc(t.subject):""}</h3><div class="meta"><span>${fmtDate(t.date)}</span></div></div><span class="num" style="font-size:16px">${esc(t.score)}</span></div>`).join(""):`<div class="empty">SAT·ACT·AP·TOEFL 점수를 추가하세요.</div>`}</div></div>`;
+}
+function vActivities(){
+  const a=by("activity").slice().sort((x,y)=>actHours(y)-actHours(x));
+  return head("활동 기록 · Activities","활동",`역할·기간·주당 시간·성과를 기록하면 Common App 활동란 형식으로 바로 변환됩니다.`,addBtn("activity"))
+  +`<div class="list">${a.length?a.map(x=>{const n=(x.desc||"").length;return `<div class="row click" data-act="edit" data-id="${esc(x.id)}">
+      ${thumb(x)}<div class="main"><h3>${esc(x.role)}</h3><div class="small" style="color:var(--ink)">${esc(x.name)}</div>
+      <div class="meta"><span>${esc(x.category||"")}</span><span>${(x.grades||[]).join("·")}학년</span><span class="num">${x.hours||0}h/주 · ${x.weeks||0}주/년</span>${x.theme?`<span class="chip ivy">#${esc(x.theme)}</span>`:""}${x.link?`<span class="chip">증빙 있음</span>`:""}</div>
+      ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:`<p class="desc small">설명이 비어 있습니다</p>`}
+      ${x.feedback?`<p class="desc small">카운슬러: ${esc(x.feedback)}</p>`:""}</div>
+      <span class="cnt ${n>150?"over":""}">${n}/150</span></div>`}).join(""):`<div class="empty">첫 활동을 기록하세요. 동아리, 봉사, 인턴, 창업, 운동, 예술 모두 해당됩니다.${addBtn("activity")}</div>`}</div>`;
+}
+function vResearch(){
+  const r=by("research");const ST=["주제 선정","가설","실험","결과 분석","완료"];
+  return head("연구·프로젝트","연구·프로젝트",`가설 → 실험 → 결과의 진행 과정과 대회 출품 이력, 결과물 링크를 모읍니다.`,addBtn("research"))
+  +(r.length?`<div class="grid g2">${r.map(x=>{const si=ST.indexOf(x.stage),ps=photosOf(x.id);return `<div class="panel" style="display:flex;flex-direction:column;gap:10px;cursor:pointer" data-act="edit" data-id="${esc(x.id)}">
+     ${ps.length?phBtn(ps[0],x.title+" 대표 이미지","cover"):""}${ps.length>1?`<div class="strip">${ps.slice(1).map(p=>phBtn(p,x.title)).join("")}</div>`:""}
+     <div class="meta" style="margin:0">${x.grade?`<span>${esc(x.grade)}학년</span>`:""}${x.competition?`<span class="chip ivy">${esc(x.competition)}</span>`:""}</div>
+     <h3 style="font-size:15.5px">${esc(x.title)}</h3>
+     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">${ST.map((s,i)=>`<div><div class="bar" style="height:6px"><i style="width:${i<=si?100:0}%"></i></div><div style="font-size:11px;color:${i===si?"var(--ivy)":"var(--muted)"};margin-top:4px;font-weight:${i===si?600:400}">${s}</div></div>`).join("")}</div>
+     ${x.summary?`<p class="desc">${esc(x.summary)}</p>`:""}
+     <div class="meta">${x.theme?`<span>#${esc(x.theme)}</span>`:""}${x.link?`<a href="${esc(x.link)}" target="_blank" rel="noopener">결과물 열기</a>`:""}</div>
+     ${x.feedback?`<p class="desc small">카운슬러: ${esc(x.feedback)}</p>`:""}</div>`}).join("")}</div>`
+   :`<div class="list"><div class="empty">연구·프로젝트를 기록하세요. ISEF·KSEF 출품작, 개인 프로젝트, 앱·웹 개발 모두 해당됩니다.${addBtn("research")}</div></div>`);
+}
+function vHonors(){
+  const h=by("honor").slice().sort((a,b)=>(LEVEL_W[b.level]||0)-(LEVEL_W[a.level]||0)),top=new Set(topHonors().map(x=>x.id));
+  return head("수상·인증 · Honors","수상·인증",`수준(교내·지역·전국·국제)을 구분해 두면 Common App Honors 5칸에 넣을 우선순위를 추천합니다.`,addBtn("honor"))
+  +`<div class="list">${h.length?h.map(x=>`<div class="row click" data-act="edit" data-id="${esc(x.id)}">${thumb(x,"sm")}<div class="main"><h3 style="font-weight:500">${esc(x.title)}</h3><div class="meta"><span>${(x.grades||[]).join("·")}학년</span><span>${esc(LEVEL_CA[x.level]||"")}</span>${x.theme?`<span>#${esc(x.theme)}</span>`:""}</div></div><div class="side"><span class="chip ${x.level==="국제"||x.level==="전국"?"ivy":""}">${esc(x.level||"")}</span>${top.has(x.id)?`<span class="chip ok">Honors 추천</span>`:""}</div></div>`).join(""):`<div class="empty">수상 내역을 추가하세요.${addBtn("honor")}</div>`}</div>
+  <p class="small" style="margin-top:10px">추천 순서: 수준(국제 > 전국 > 지역 > 교내) → 최근 학년. 순서는 지원서 활용에서 확인할 수 있습니다.</p>`;
+}
+function vStory(){
+  const sp=spike(),p=S.profile;
+  const T=[["activity","활동"],["research","연구"],["honor","수상"],["idea","에세이 소재"]];
+  const tl={9:[],10:[],11:[],12:[]};
+  ["activity","research","honor"].forEach(t=>by(t).forEach(i=>{const gs=i.type==="research"?[i.grade]:(i.grades||[]);gs.forEach(g=>{if(tl[g])tl[g].push(i)})}));
+  const lbl=i=>i.type==="activity"?i.role+" · "+i.name:i.title;
+  const verdict=!sp.top?"관심 주제 태그를 달면 활동들이 어떤 이야기로 이어지는지 보여 줍니다."
+    :sp.share>=.5?`기록의 ${pct(sp.share)}%가 '${sp.top.name}'에 모여 있습니다. 뚜렷한 스파이크입니다.`
+    :sp.share>=.35?`'${sp.top.name}'이 중심 주제입니다(${pct(sp.share)}%). 관련 기록을 조금 더 쌓으면 스파이크가 선명해집니다.`
+    :`주제가 고르게 흩어져 있습니다. 가장 큰 주제는 '${sp.top.name}'(${pct(sp.share)}%)입니다.`;
+  const ideas=by("idea");
+  return head("나의 스토리 · Narrative","나의 스토리",`활동·연구·수상이 하나의 관심사로 이어지는지, 9~12학년 동안 어떻게 자랐는지 한눈에 봅니다.`,addBtn("idea","소재 메모"))
+  +`<div class="panel" style="display:flex;flex-direction:column;gap:6px"><div class="eyebrow">희망 전공</div><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline"><h2 style="font-family:var(--f-display);font-size:22px">${esc(p.major||"아직 정하지 않음")}</h2><a class="btn sm" href="#my">수정</a></div><p class="lede" style="color:var(--ink)">${esc(verdict)}</p></div>
+  <div class="sec"><div class="sec-h"><h2>스파이크 맵</h2><div class="legend">${T.map(([t,l])=>`<span><i class="dot" style="background:${TYPE_COLOR[t]}"></i>${l}</span>`).join("")}</div></div>
+    <div class="panel">${sp.arr.length?`<div class="spike">${sp.arr.map(x=>`<div class="theme"><span class="nm">#${esc(x.name)}</span><div class="stack" title="${x.total}건" style="width:${Math.max(8,x.total/sp.arr[0].total*100)}%">${T.map(([t])=>x[t]?`<i style="width:${x[t]/x.total*100}%;background:${TYPE_COLOR[t]}"></i>`:"").join("")}</div><span class="num small" style="text-align:right">${x.total}</span></div>`).join("")}</div>`:`<div class="empty">활동·연구·수상에 '관심 주제 태그'를 달아 주세요.</div>`}</div></div>
+  <div class="sec"><div class="sec-h"><h2>성장 타임라인</h2><span class="small">학년별 활동·연구·수상</span></div>
+    <div class="tl"><div class="tl-grid">${GR.map(g=>`<div class="tl-col"><h3>${g}학년</h3>${tl[g].length?tl[g].map(i=>`<div class="tl-item" style="--c:${TYPE_COLOR[i.type]}">${photosOf(i.id).length?phBtn(photosOf(i.id)[0],lbl(i)):""}${esc(lbl(i))}<small>${TYPE_LABEL[i.type]}${i.theme?" · #"+esc(i.theme):""}</small></div>`).join(""):`<span class="small">기록 없음</span>`}</div>`).join("")}</div></div></div>
+  <div class="sec"><div class="sec-h"><h2>에세이 소재 뱅크</h2>${addBtn("idea","소재 메모")}</div>
+    <div class="list">${ideas.length?ideas.map(i=>`<div class="row click" data-act="edit" data-id="${esc(i.id)}"><div class="main">${esc(i.text)}${i.theme?`<div class="meta"><span>#${esc(i.theme)}</span></div>`:""}</div></div>`).join(""):`<div class="empty">기억에 남는 장면, 깨달음, 실패담을 짧게 적어 두세요.</div>`}</div></div>`;
+}
+function caActText(a,i){return `${i+1}. ${a.category||""}\nPosition/Leadership: ${a.role||""}\nOrganization: ${a.name||""}\nDescription: ${a.desc||""}\nGrades: ${(a.grades||[]).join(", ")} | ${a.hours||0} hr/wk, ${a.weeks||0} wk/yr`}
+function caHonText(h,i){return `${i+1}. ${h.title}\nGrade level: ${(h.grades||[]).join(", ")} | Level of recognition: ${LEVEL_CA[h.level]||""}`}
+function brag(){
+  const p=S.profile,sp=spike(),g=gpa();
+  const L=[`Brag Sheet — ${p.name||""}`,`${p.school||""}${p.grade?", Grade "+p.grade:""}${p.major?" | Intended major: "+p.major:""}`,""];
+  if(sp.top)L.push(`Core interest: ${sp.top.name}`,"");
+  if(g)L.push(`GPA: ${g.u} (unweighted), ${g.w} (weighted)`);
+  const bt=bestTest();if(bt)L.push(`Testing: ${bt}`);
+  L.push("","Key activities:");topActivities().slice(0,5).forEach(a=>L.push(`- ${a.role}, ${a.name}${a.desc?": "+a.desc:""}`));
+  const r=by("research");if(r.length){L.push("","Research:");r.forEach(x=>L.push(`- ${x.title}${x.competition?" ("+x.competition+")":""}`))}
+  const h=topHonors();if(h.length){L.push("","Honors:");h.forEach(x=>L.push(`- ${x.title} (${LEVEL_CA[x.level]||""})`))}
+  L.push("","What I hope my recommender can speak to:","- ");
+  return L.join("\n");
+}
+function interviewQs(){
+  const q=[],sp=spike(),p=S.profile;
+  if(p.major)q.push(["전공 동기",`왜 ${p.major}을(를) 공부하고 싶나요? 그 관심이 처음 시작된 순간은 언제였나요?`]);
+  if(sp.top)q.push(["관심 주제",`'${sp.top.name}'에 관한 활동을 여러 개 했는데, 그중 생각이 가장 크게 바뀐 경험은 무엇인가요?`]);
+  topActivities().slice(0,3).forEach(a=>q.push(["활동",`${a.name}에서 ${a.role}(으)로 일하며 가장 어려웠던 순간과 해결 방법을 말해 주세요.`]));
+  by("research").slice(0,2).forEach(r=>q.push(["연구",`'${r.title}' 연구에서 예상과 다른 결과가 나왔을 때 어떻게 대응했나요?`]));
+  topHonors().slice(0,1).forEach(h=>q.push(["수상",`${h.title}을(를) 준비하며 배운 것 중 대학에서도 이어 가고 싶은 것은 무엇인가요?`]));
+  q.push(["학교 적합성","우리 학교에서 꼭 해 보고 싶은 수업, 연구실, 동아리를 하나씩 말해 주세요."]);
+  return q;
+}
+function vApply(){
+  const acts=topActivities(),hons=topHonors(),es=by("essay"),tg=S.profile.targets||[];
+  const fld=(k,v,max)=>{const n=String(v||"").length;return `<div class="fld"><span class="k">${k}</span><span class="v">${esc(v||"—")}</span>${max?`<span class="cnt ${n>max?"over":""}">${n}/${max}</span>`:"<span></span>"}</div>`};
+  return head("지원서 활용 · Application","지원서 활용",`쌓아 둔 기록을 Common App 형식, 추천서용 브래그 시트, 인터뷰 대비 자료로 바로 꺼내 씁니다.`,dl?`<button class="btn" data-act="export">포트폴리오 파일 저장</button>`:"")
+  +`<div class="sec" style="margin-top:0"><div class="sec-h"><h2>Common App 활동란 <span class="small">${acts.length}/10</span></h2><button class="btn sm" data-act="copy" data-what="acts">전체 복사</button></div>
+     <p class="small" style="margin:-4px 0 0">투입 시간(주당 시간 × 주 수 × 학년 수) 순으로 정렬했습니다. 최종 순서는 Common App에서 조정하세요.</p>
+     <div class="ca">${acts.length?acts.map((a,i)=>`<div class="ca-item"><span class="n">${String(i+1).padStart(2,"0")}</span><div>${fld("Activity type",a.category)}${fld("Position/Leadership",a.role,50)}${fld("Organization",a.name,100)}${fld("Description",a.desc,150)}${fld("Participation",(a.grades||[]).join(", ")+"학년 · "+(a.hours||0)+" hr/wk · "+(a.weeks||0)+" wk/yr")}</div></div>`).join(""):`<div class="list"><div class="empty">활동을 기록하면 여기에 정리됩니다.</div></div>`}</div></div>
+   <div class="sec"><div class="sec-h"><h2>Common App Honors <span class="small">${hons.length}/5</span></h2><button class="btn sm" data-act="copy" data-what="hons">전체 복사</button></div>
+     <div class="ca">${hons.length?hons.map((h,i)=>`<div class="ca-item"><span class="n">${String(i+1).padStart(2,"0")}</span><div>${fld("Honors title",h.title,100)}${fld("Grade level",(h.grades||[]).join(", "))}${fld("Level of recognition",LEVEL_CA[h.level])}</div></div>`).join(""):`<div class="list"><div class="empty">수상을 기록하면 여기에 정리됩니다.</div></div>`}</div></div>
+   <div class="sec"><div class="sec-h"><h2>에세이</h2>${addBtn("essay")}</div>
+     <div class="list">${es.length?es.map(e=>{const w=words(e.body),lim=+e.limit||0;return `<div class="row click" data-act="edit" data-id="${esc(e.id)}"><div class="main"><h3 style="font-weight:500">${esc(e.title)}</h3><div class="meta"><span>${esc(e.school||"공통 (Common App)")}</span>${e.feedback?`<span>카운슬러 코멘트 있음</span>`:""}</div></div><div class="side"><span class="cnt ${lim&&w>lim?"over":""}">${w}${lim?"/"+lim:""} words</span><span class="chip ${e.status==="완료"?"ok":e.status==="첨삭 중"?"amber":""}">${esc(e.status||"")}</span></div></div>`}).join(""):`<div class="empty">Personal Statement와 학교별 보충 에세이를 관리하세요.</div>`}</div></div>
+   <div class="sec"><div class="sec-h"><h2>추천서용 브래그 시트</h2><button class="btn sm" data-act="copy" data-what="brag">복사</button></div>
+     <p class="small" style="margin:-4px 0 0">교사·카운슬러에게 추천서를 부탁할 때 함께 보내는 요약입니다. 마지막 줄에 부탁하고 싶은 내용을 채우세요.</p>
+     <textarea class="out" id="brag" readonly>${esc(brag())}</textarea></div>
+   <div class="sec"><div class="sec-h"><h2>인터뷰 예상 질문</h2></div>
+     <div class="list">${interviewQs().map(([k,q])=>`<div class="q"><small>${k}</small>${esc(q)}</div>`).join("")}</div></div>
+   ${dl?`<div class="sec"><div class="sec-h"><h2>대학별 맞춤 포트폴리오</h2></div>
+     <div class="panel" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end"><div class="f" style="flex:1;min-width:200px"><label for="exp-school">대학 선택</label><select id="exp-school"><option value="">공통 포트폴리오</option>${tg.map(t=>`<option value="${esc(t.name)}">${esc(t.name)}</option>`).join("")}</select></div><button class="btn pri" data-act="export">파일로 저장 (.html)</button></div>
+     <p class="small">저장한 파일은 브라우저에서 열어 PDF로 인쇄하거나 링크로 공유할 수 있습니다. 선택한 대학의 보충 에세이가 함께 들어갑니다.</p></div>`:""}`;
+}
+function vCounsel(){
+  const rq=by("req").slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+  const fb=S.items.filter(i=>i.feedback);
+  const g=gpa(),a=by("activity");
+  const checks=[["과목 성적이 이번 학기까지 입력됨",by("course").length>=6],["대표 시험 점수 1개 이상",!!bestTest()],["활동 10개 기록",a.length>=10],["모든 활동 설명 150자 이내",a.length>0&&a.every(x=>x.desc&&x.desc.length<=150)],["관심 주제 스파이크 확인",spike().share>=.4],["Personal Statement 완료",by("essay").some(e=>/personal/i.test(e.title)&&e.status==="완료")],["목표 대학 리스트 5곳 이상",(S.profile.targets||[]).length>=5]];
+  return head("피드백·상담","피드백·상담",`카운슬러 코멘트를 모아 보고, 1:1 상담을 신청하고, 학기별 점검표로 빠진 곳을 확인합니다.`,addBtn("req","상담 신청"))
+  +`<div class="grid g2"><div class="sec" style="margin-top:0"><div class="sec-h"><h2>상담 신청</h2>${addBtn("req","신청")}</div>
+     <div class="list">${rq.length?rq.map(r=>{const d=dday(r.date);return `<div class="row click" data-act="edit" data-id="${esc(r.id)}"><div class="main"><h3 style="font-weight:500">${esc(r.topic||"")}</h3><div class="meta"><span>${fmtDate(r.date)}</span>${r.note?`<span>${esc(r.note)}</span>`:""}</div></div><span class="dday">${ddLabel(d)}</span></div>`}).join(""):`<div class="empty">신청한 상담이 없습니다.</div>`}</div>
+     <p class="small">시제품에서는 신청 내역이 내 기록에만 저장됩니다. 실제 서비스에서는 컨설턴트 일정과 연결됩니다.</p></div>
+   <div class="sec" style="margin-top:0"><div class="sec-h"><h2>학기 점검표</h2><span class="small">${checks.filter(c=>c[1]).length}/${checks.length}</span></div>
+     <div class="list">${checks.map(([t,ok])=>`<div class="row"><span class="chip ${ok?"ok":""}">${ok?"완료":"확인 필요"}</span><div class="main">${t}</div></div>`).join("")}</div></div></div>
+   <div class="sec"><div class="sec-h"><h2>카운슬러 코멘트</h2></div>
+     <div class="list">${fb.length?fb.map(i=>`<div class="row click" data-act="edit" data-id="${esc(i.id)}"><span class="chip">${TYPE_LABEL[i.type]}</span><div class="main"><h3 style="font-weight:500">${esc(i.title||i.role||"")}</h3><p class="desc">${esc(i.feedback)}</p></div></div>`).join(""):`<div class="empty">활동·연구·에세이 기록에서 '카운슬러 코멘트'를 남기면 이곳에 모입니다.</div>`}</div></div>`;
+}
+function vParents(){
+  const p=S.profile,g=gpa(),up=upcoming().slice(0,3),fb=S.items.filter(i=>i.feedback).slice(0,3);
+  return head("공유·학부모","학부모 리포트",`학부모님이 보시는 요약 화면입니다. 진행률, 성적, 다가오는 마감, 최근 카운슬러 피드백만 보여 줍니다.`,"")
+  +`<div class="banner" style="background:var(--ivy-soft)"><span>시제품에서는 이 화면을 미리 볼 수 있습니다. 실제 서비스에서는 학부모 계정을 연결해 읽기 전용으로 공유합니다.</span></div>
+   <div class="panel" style="display:flex;flex-direction:column;gap:16px">
+     <div class="report-h"><div class="who"><img class="avatar" src="${esc(avatarSrc())}" alt="프로필 사진"><div><div class="eyebrow">${esc(p.school||"")}</div><h2 style="font-family:var(--f-display);font-size:24px">${esc(p.name||"학생")} · ${esc(p.grade||"")}학년</h2></div></div><div class="stat" style="text-align:right"><b>${overall()}%</b><span>포트폴리오 완성도</span></div></div>
+     <div class="grid g3"><div class="stat"><span>GPA (UW · W)</span><b>${g?g.u+" · "+g.w:"—"}</b></div><div class="stat"><span>대표 시험</span><b>${esc(bestTest()||"—")}</b></div><div class="stat"><span>에세이 완료</span><b>${by("essay").filter(e=>e.status==="완료").length}/${by("essay").length}</b></div></div>
+     <div>${areas().map(([r,l,v])=>`<div class="area"><span>${l}</span><span class="bar"><i style="width:${pct(v)}%"></i></span><span class="pct">${pct(v)}%</span></div>`).join("")}</div></div>
+   <div class="grid g2"><div class="sec"><h2>다가오는 마감</h2><div class="list">${up.length?up.map(t=>`<div class="row"><div class="main">${esc(t.name)} <span class="small">${esc(t.plan||"")}</span></div><span class="dday">${ddLabel(t.d)}</span></div>`).join(""):`<div class="empty">예정된 마감이 없습니다.</div>`}</div></div>
+   <div class="sec"><h2>최근 카운슬러 피드백</h2><div class="list">${fb.length?fb.map(i=>`<div class="row"><div class="main"><div class="small">${TYPE_LABEL[i.type]} · ${esc(i.title||i.role||"")}</div>${esc(i.feedback)}</div></div>`).join(""):`<div class="empty">아직 피드백이 없습니다.</div>`}</div></div></div>
+   ${allPhotos().length?`<div class="sec"><h2>활동 사진</h2><div class="gallery">${allPhotos().slice(0,6).map(ph=>{const par=S.items.find(x=>x.id===ph.parent);return `<figure>${phBtn(ph,par?itemTitle(par):"")}<figcaption>${esc(par?itemTitle(par):"")}</figcaption></figure>`}).join("")}</div></div>`:""}`;
+}
+function vMy(){
+  const p=S.profile,tg=(p.targets||[]).slice().sort((a,b)=>(a.due||"9").localeCompare(b.due||"9"));
+  return head("마이","프로필·목표 대학","",""
+  )+`<form class="panel" id="pf" style="display:flex;flex-direction:column;gap:14px">
+      <div class="who"><img class="avatar lg" src="${esc(avatarSrc())}" alt="프로필 사진"><div class="btns"><label class="btn sm" for="av-file">프로필 사진 ${photosOf("profile").length?"변경":"올리기"}</label><input id="av-file" type="file" accept="image/*" hidden>${photosOf("profile").length?`<button type="button" class="btn sm ghost" data-act="av-rm">사진 지우기</button>`:""}</div></div>
+      <div class="f2"><div class="f"><label for="p-name">이름</label><input id="p-name" name="name" value="${esc(p.name||"")}"></div><div class="f"><label for="p-school">학교</label><input id="p-school" name="school" value="${esc(p.school||"")}" placeholder="○○국제학교"></div></div>
+      <div class="f2"><div class="f"><label for="p-grade">학년</label><select id="p-grade" name="grade">${["","9","10","11","12"].map(g=>`<option value="${g}" ${p.grade===g?"selected":""}>${g?g+"학년":"선택"}</option>`).join("")}</select></div><div class="f"><label for="p-major">희망 전공</label><input id="p-major" name="major" value="${esc(p.major||"")}" placeholder="Computer Science"></div></div>
+      <div><button class="btn pri" type="submit">프로필 저장</button></div></form>
+   <div class="sec"><div class="sec-h"><h2>목표 대학 리스트</h2>${addBtn("target","대학 추가")}</div>
+     <div class="list">${tg.length?tg.map(t=>{const d=dday(t.due);return `<div class="row click" data-act="edit-target" data-id="${esc(t.id)}"><div class="main"><h3 style="font-weight:500">${esc(t.name)}</h3><div class="meta"><span class="chip ${t.tier==="Reach"?"amber":t.tier==="Safety"?"":"ivy"}">${esc(t.tier||"")}</span><span>${esc(t.plan||"")}</span><span>${fmtDate(t.due)}</span></div></div><span class="dday">${ddLabel(d)}</span></div>`}).join(""):`<div class="empty">지원할 대학과 마감일을 추가하면 대시보드에 D-day가 표시됩니다.</div>`}</div></div>
+   <div class="sec"><div class="sec-h"><h2>데이터</h2></div>
+     <div class="panel" style="display:flex;flex-direction:column;gap:10px"><p class="small" style="margin:0">${S.mode==="local"?"기록은 이 기기의 브라우저에만 저장됩니다. 다른 기기나 브라우저에서는 보이지 않습니다.":S.mode==="db"?"기록은 내 계정에만 저장되며 이 페이지를 공유받은 다른 사람은 볼 수 없습니다.":"체험 모드에서는 기록이 저장되지 않습니다. claude.ai에 로그인한 상태로 열면 저장됩니다."}</p>
+       <div class="btns">${S.mode!=="demo"?`<button class="btn" data-act="seed">예시 데이터 불러오기</button><button class="btn danger" data-act="wipe">모든 기록 삭제</button>`:""}</div></div></div>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+  if(S.mode==="local")saveLocal();
+  renderChrome();
+  const V={home:vHome,academics:vAcademics,activities:vActivities,research:vResearch,honors:vHonors,story:vStory,apply:vApply,counsel:vCounsel,parents:vParents,my:vMy};
+  let html;
+  if(S.mode==="loading")html=`<p class="small">포트폴리오를 불러오는 중입니다…</p>`;
+  else if((S.mode==="db"||S.mode==="local")&&!S.items.length&&!S.profile.name&&!S.started)html=vEmpty();
+  else html=segbar()+banner()+V[S.route]();
+  $("#view").innerHTML=html;
+  refreshPhotoEdit();
+}
+
+/* ---------- modal ---------- */
+let M=null;
+function openForm(type,item){
+  M={type,item:item||null,id:item?item.id:rid()};
+  const v=item||{};const tl=themes();
+  const field=f=>{
+    if(f.row)return `<div class="f2">${f.row.map(field).join("")}</div>`;
+    const id="m-"+f.k,val=v[f.k]==null?"":v[f.k];
+    const cnt=f.max?`<span class="cnt" id="c-${f.k}">${String(val).length}/${f.max}</span>`:"";
+    let input;
+    if(f.opt)input=`<select id="${id}" name="${f.k}">${f.opt.map(o=>`<option ${String(val)===o?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+    else if(f.multi)return `<div class="f"><span class="lab">${f.l}</span><div class="checks">${f.multi.map(o=>`<label><input type="checkbox" name="${f.k}" value="${o}" id="${id}-${o}" ${(v[f.k]||[]).includes(o)?"checked":""}>${o}학년</label>`).join("")}</div></div>`;
+    else if(f.ta)input=`<textarea id="${id}" name="${f.k}" class="${f.big?"big":""}" ${f.max?`data-max="${f.max}"`:""}>${esc(val)}</textarea>`;
+    else input=`<input id="${id}" name="${f.k}" type="${f.t||"text"}" value="${esc(val)}" placeholder="${esc(f.ph||"")}" ${f.list?'list="themes-dl"':""} ${f.max?`data-max="${f.max}"`:""} ${f.req?"required":""}>`;
+    return `<div class="f"><label for="${id}"><span>${f.l}${f.req?" *":""}</span>${cnt}</label>${input}${f.hint?`<span class="hint">${f.hint}</span>`:""}</div>`;
+  };
+  const wc=type==="essay"?`<span class="cnt" id="wc">${words(v.body)} words</span>`:"";
+  $("#modal").innerHTML=`<div class="scrim" data-act="close-bg"><form class="sheet" id="mf" novalidate>
+    <header><h2>${TYPE_LABEL[type]} ${item?"수정":"추가"}</h2>${wc}<button type="button" class="btn ghost sm" data-act="close">닫기</button></header>
+    <div class="body">${PHOTO_TYPES.includes(type)?`<div class="f"><span class="lab"><span>사진·증빙 자료</span><span class="cnt">최대 6장</span></span><div class="pedit" id="pedit">${photoEdit(M.id)}</div><span class="hint">${type==="honor"?"상장·메달 사진":"활동 현장, 결과물, 발표 장면"}을 올리면 대시보드 갤러리, 타임라인, 학부모 리포트, 내보내기 파일에 함께 들어갑니다.</span></div>`:""}${FIELDS[type].map(field).join("")}<datalist id="themes-dl">${tl.map(t=>`<option value="${esc(t)}">`).join("")}</datalist></div>
+    <footer><div>${item?`<button type="button" class="btn danger" data-act="del">삭제</button>`:""}</div><div class="btns"><button type="button" class="btn" data-act="close">취소</button><button type="submit" class="btn pri">저장</button></div></footer>
+  </form></div>`;
+  const first=$("#mf input:not([type=checkbox]), #mf textarea, #mf select");if(first&&window.innerWidth>860)first.focus();
+}
+function photoEdit(pid){
+  const ps=photosOf(pid);
+  return ps.map(p=>`<div class="item">${phBtn(p,"첨부 사진")}<button type="button" class="rm" data-act="ph-rm" data-id="${esc(p.id)}">삭제</button></div>`).join("")
+    +(ps.length<6?`<label class="upl"><input type="file" id="ph-file" accept="image/*" multiple><span style="font-size:20px">+</span>사진 추가</label>`:"");
+}
+function refreshPhotoEdit(){const el=$("#pedit");if(el&&M)el.innerHTML=photoEdit(M.id)}
+function closeForm(){
+  if(M&&!M.item&&!M.keep){photosOf(M.id).forEach(p=>delItem(p.id))}
+  M=null;$("#modal").innerHTML="";if(S.mode==="db")render()
+}
+function readForm(f){
+  const out={};
+  FIELDS[M.type].flatMap(x=>x.row||[x]).forEach(d=>{
+    if(d.multi){out[d.k]=[...f.querySelectorAll(`input[name="${d.k}"]:checked`)].map(x=>x.value)}
+    else{const el=f.elements[d.k];let v=el?el.value.trim():"";if(d.t==="number")v=v===""?"":Number(v);out[d.k]=v}
+  });
+  return out;
+}
+
+/* ---------- export ---------- */
+function exportDoc(school){
+  const p=S.profile,g=gpa(),acts=topActivities(),hons=topHonors();
+  const es=by("essay").filter(e=>!e.school||(school&&e.school===school));
+  const h=s=>esc(s);
+  const pics=id=>{const ps=photosOf(id).slice(0,3);return ps.length?`<div>${ps.map(p=>`<img src="${h(p.src)}" alt="" style="width:200px;height:150px;object-fit:cover;border-radius:6px;margin:8px 8px 0 0">`).join("")}</div>`:""};
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${h(p.name||"Portfolio")} — Portfolio${school?" for "+h(school):""}</title>
+<style>body{font-family:"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;max-width:760px;margin:40px auto;padding:0 20px;color:#16201b;line-height:1.55}h1{font-family:Georgia,serif;margin:0}h2{border-bottom:2px solid #1d5a47;padding-bottom:4px;margin-top:32px;color:#1d5a47;font-size:17px}.m{color:#5a6660}li{margin:6px 0}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #dbe1da;padding:6px 4px;text-align:left;font-size:14px}pre{white-space:pre-wrap;font-family:inherit}</style></head><body>
+${photosOf("profile").length?`<img src="${h(avatarSrc())}" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;float:right">`:""}<h1>${h(p.name||"")}</h1><p class="m">${h(p.school||"")}${p.grade?" · Grade "+h(p.grade):""}${p.major?" · Intended major: "+h(p.major):""}${school?"<br>Prepared for "+h(school):""}</p>
+${spike().top?`<p><b>Core interest:</b> ${h(spike().top.name)}</p>`:""}
+<h2>Academics</h2><p>${g?`GPA ${g.u} (unweighted) / ${g.w} (weighted)`:""}</p>
+<table><tr><th>Course</th><th>Level</th><th>Grade</th><th>Mark</th></tr>${by("course").map(c=>`<tr><td>${h(c.subject)}</td><td>${h(c.level)}</td><td>${h(c.grade)}-${h(c.sem)}</td><td>${h(c.mark)}</td></tr>`).join("")}</table>
+<p>${by("test").map(t=>h(t.name+(t.subject?" "+t.subject:"")+": "+t.score)).join(" · ")}</p>
+<h2>Activities</h2><ol>${acts.map(a=>`<li><b>${h(a.role)}</b>, ${h(a.name)} <span class="m">(${h((a.grades||[]).join(", "))} · ${h(a.hours)} hr/wk · ${h(a.weeks)} wk/yr)</span><br>${h(a.desc||"")}${pics(a.id)}</li>`).join("")}</ol>
+${by("research").length?`<h2>Research & Projects</h2><ul>${by("research").map(r=>`<li><b>${h(r.title)}</b>${r.competition?" — "+h(r.competition):""}<br>${h(r.summary||"")}${r.link?`<br><a href="${h(r.link)}">${h(r.link)}</a>`:""}${pics(r.id)}</li>`).join("")}</ul>`:""}
+<h2>Honors</h2><ol>${hons.map(x=>`<li>${h(x.title)} <span class="m">(${h(LEVEL_CA[x.level]||"")}, Grade ${h((x.grades||[]).join(", "))})</span>${pics(x.id)}</li>`).join("")}</ol>
+${es.length?`<h2>Essays</h2>${es.map(e=>`<h3>${h(e.title)}${e.school?" — "+h(e.school):""}</h3>${e.prompt?`<p class="m">${h(e.prompt)}</p>`:""}<pre>${h(e.body||"")}</pre>`).join("")}`:""}
+</body></html>`;
+}
+
+/* ---------- copy ---------- */
+async function copyText(t,el){
+  try{await navigator.clipboard.writeText(t);toast("복사했습니다")}
+  catch(e){if(el&&el.select){el.focus();el.select();toast("자동 복사가 막혀 있어요. 선택된 글을 직접 복사하세요")}else toast("자동 복사가 막혀 있어요")}
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const a=b.dataset.act;
+  if(a==="close-bg"&&e.target!==b)return;
+  if(a==="add"){const map={academics:"course",research:"research",honors:"honor",story:"idea",apply:"essay",counsel:"req",my:"target"};openForm(map[S.route]||"activity");return}
+  if(a==="new"){openForm(b.dataset.type);return}
+  if(a==="edit"){const it=S.items.find(x=>x.id===b.dataset.id);if(it)openForm(it.type,it);return}
+  if(a==="edit-target"){const t=(S.profile.targets||[]).find(x=>x.id===b.dataset.id);if(t)openForm("target",t);return}
+  if(a==="close"||a==="close-bg"){closeForm();return}
+  if(a==="view-photo"){e.preventDefault();e.stopPropagation();openPhoto(b.dataset.id);return}
+  if(a==="lb-close"){$("#lb").innerHTML="";return}
+  if(a==="ph-rm"){
+    if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="확인";return}
+    await delItem(b.dataset.id);refreshPhotoEdit();toast("사진을 지웠습니다");return;
+  }
+  if(a==="av-rm"){for(const p of photosOf("profile"))await delItem(p.id);render();toast("프로필 사진을 지웠습니다");return}
+  if(a==="del"){
+    if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="한 번 더 누르면 삭제";return}
+    const it=M&&M.item,tp=M&&M.type;closeForm();if(!it)return;
+    if(tp==="target"){const p=Object.assign({},S.profile);p.targets=(p.targets||[]).filter(x=>x.id!==it.id);await putProfile(p)}else await delItem(it.id);
+    toast("삭제했습니다");return;
+  }
+  if(a==="seed"){b.disabled=true;await seed();return}
+  if(a==="start"){S.started=true;location.hash="#my";render();return}
+  if(a==="wipe"){
+    if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="한 번 더 누르면 모두 삭제";return}
+    b.disabled=true;for(const it of S.items.slice()){await delItem(it.id)}await putProfile({});S.started=true;toast("모든 기록을 지웠습니다");return;
+  }
+  if(a==="copy"){
+    const w=b.dataset.what;
+    const t=w==="acts"?topActivities().map(caActText).join("\n\n"):w==="hons"?topHonors().map(caHonText).join("\n\n"):$("#brag").value;
+    copyText(t,w==="brag"?$("#brag"):null);return;
+  }
+  if(a==="export"){
+    if(!dl){toast("이 화면에서는 파일 저장을 쓸 수 없어요");return}
+    const sel=$("#exp-school"),school=sel?sel.value:"";
+    const nm=(S.profile.name||"portfolio").replace(/[^\w가-힣 -]/g,"").trim()||"portfolio";
+    try{await dl.save({filename:`${nm} 포트폴리오${school?" - "+school.replace(/[^\w가-힣 -]/g,""):""}.html`,data:exportDoc(school)});toast("파일을 저장했습니다")}
+    catch(err){if(err&&err.code!=="declined")toast("파일을 저장하지 못했어요")}
+    return;
+  }
+});
+document.addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(e.target.id==="pf"){
+    const f=e.target,p=Object.assign({},S.profile);["name","school","grade","major"].forEach(k=>p[k]=f.elements[k].value.trim());
+    delete p.example;S.started=true;await putProfile(p);toast("프로필을 저장했습니다");return;
+  }
+  if(e.target.id==="mf"&&M){
+    const f=e.target,data=readForm(f);
+    const miss=FIELDS[M.type].flatMap(x=>x.row||[x]).find(d=>d.req&&!String(data[d.k]||"").trim());
+    if(miss){toast(`'${miss.l}'을(를) 입력해 주세요`);const el=f.elements[miss.k];if(el&&el.focus)el.focus();return}
+    if(M.type==="target"){
+      const p=Object.assign({},S.profile),list=(p.targets||[]).slice(),t=Object.assign({id:M.item?M.item.id:rid()},data);
+      const i=list.findIndex(x=>x.id===t.id);if(i>=0)list[i]=t;else list.push(t);p.targets=list;closeForm();S.started=true;await putProfile(p);toast("저장했습니다");return;
+    }
+    const base=M.item?Object.assign({},M.item):{id:M.id,type:M.type,created:Date.now()};
+    const it=Object.assign(base,data);delete it.example;
+    M.keep=true;closeForm();S.started=true;await putItem(it);toast("저장했습니다");
+  }
+});
+document.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.dataset&&t.dataset.max){const c=document.getElementById("c-"+t.name);if(c){const n=t.value.length;c.textContent=n+"/"+t.dataset.max;c.classList.toggle("over",n>+t.dataset.max)}}
+  if(t.name==="body"&&M&&M.type==="essay"){const w=$("#wc");if(w)w.textContent=words(t.value)+" words"}
+});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if($("#lb").innerHTML){$("#lb").innerHTML="";return}if(M)closeForm()});
+document.addEventListener("change",async e=>{
+  const t=e.target;
+  if(t.id==="ph-file"&&M&&t.files&&t.files.length){
+    const room=6-photosOf(M.id).length;const files=[...t.files].slice(0,room);
+    const lab=t.closest(".upl");if(lab)lab.lastChild.textContent="올리는 중…";
+    const n=await addPhotos(files,M.id);refreshPhotoEdit();if(n)toast(`사진 ${n}장을 추가했습니다`);
+  }
+  if(t.id==="av-file"&&t.files&&t.files[0]){
+    const old=photosOf("profile").map(p=>p.id);
+    const n=await addPhotos([t.files[0]],"profile");
+    if(n){for(const id of old)await delItem(id);toast("프로필 사진을 바꿨습니다")}
+    render();
+  }
+});
+
+
+/* ---------- seed ---------- */
+async function seed(){
+  const {P,L}=sample();
+  if(S.mode!=="db"){S.profile=P;S.items=L;S.started=true;render();toast("예시 데이터를 불러왔습니다");return}
+  toast("예시 데이터를 넣는 중…");
+  try{await col.doc("profile").set(P);for(const it of L){await col.doc(it.id).set(it)}S.started=true;toast("예시 데이터를 불러왔습니다")}
+  catch(e){toast("예시 데이터를 넣지 못했어요")}
+}
+
+/* ---------- boot ---------- */
+const LS="spike-portfolio-v1";
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify({profile:S.profile,items:S.items}))}catch(e){toast("이 브라우저에 더 저장할 공간이 없어요. 사진 수를 줄여 주세요")}}
+function local(){
+  dl={save:({filename,data})=>{const u=URL.createObjectURL(new Blob([data],{type:"text/html"}));const x=document.createElement("a");x.href=u;x.download=filename;document.body.appendChild(x);x.click();x.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return Promise.resolve({status:"saved"})}};
+  let d=null;try{d=JSON.parse(localStorage.getItem(LS)||"null")}catch(e){d=null}
+  try{localStorage.setItem(LS+"-t","1");localStorage.removeItem(LS+"-t");S.mode="local"}catch(e){demo();return}
+  if(d){S.profile=d.profile||{};S.items=d.items||[];if(S.items.length||S.profile.name)S.started=true}
+  render();
+}
+function demo(){S.mode="demo";const {P,L}=sample();S.profile=P;S.items=L;render()}
+async function boot(){
+  setRoute();
+  if(!window.claude||!window.claude.use){local();return}
+  try{
+    const [d,u,dw]=await Promise.all([claude.use("db"),claude.use("user"),claude.use("downloads")]);
+    dl=dw;
+    uid=u?await u.id():null;
+    if(!d||!uid){demo();return}
+    db=d;col=db.collection("data/users/"+uid);
+    S.mode="db";render();
+    unsub=col.onSnapshot(snap=>{
+      const items=[];let prof={};
+      snap.docs.forEach(doc=>{if(!doc.exists)return;const v=Object.assign({},doc.data());if(doc.id==="profile")prof=v;else{v.id=doc.id;items.push(v)}});
+      S.items=items;S.profile=prof;if(items.length||prof.name)S.started=true;
+      if(!M)render();else{renderChrome();refreshPhotoEdit()}
+    },err=>{toast("기록을 불러오지 못했어요. 체험 모드로 전환합니다");demo()});
+  }catch(e){demo()}
+}
+boot();
+})();
+</script>
+
+</body>
+</html>
